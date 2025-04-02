@@ -58,6 +58,14 @@
 #define GPIO_PORTE_AFSEL_R (*((volatile uint32 *)(GPIO_PORTE_APB_BASE_ADDRESS + 0x420)))
 #define GPIO_PORTF_AFSEL_R (*((volatile uint32 *)(GPIO_PORTF_APB_BASE_ADDRESS + 0x420)))
 
+/****** GPIO Analog Mode Select ******/
+#define GPIO_PORTA_AMSEL_R (*((volatile uint32 *)(GPIO_PORTA_APB_BASE_ADDRESS + 0x528)))
+#define GPIO_PORTB_AMSEL_R (*((volatile uint32 *)(GPIO_PORTB_APB_BASE_ADDRESS + 0x528)))
+#define GPIO_PORTC_AMSEL_R (*((volatile uint32 *)(GPIO_PORTC_APB_BASE_ADDRESS + 0x528)))
+#define GPIO_PORTD_AMSEL_R (*((volatile uint32 *)(GPIO_PORTD_APB_BASE_ADDRESS + 0x528)))
+#define GPIO_PORTE_AMSEL_R (*((volatile uint32 *)(GPIO_PORTE_APB_BASE_ADDRESS + 0x528)))
+#define GPIO_PORTF_AMSEL_R (*((volatile uint32 *)(GPIO_PORTF_APB_BASE_ADDRESS + 0x528)))
+
 /****** GPIO Digital Enable Register ******/
 #define GPIO_PORTA_DEN_R (*((volatile uint32 *)(GPIO_PORTA_APB_BASE_ADDRESS + 0x51C)))
 #define GPIO_PORTB_DEN_R (*((volatile uint32 *)(GPIO_PORTB_APB_BASE_ADDRESS + 0x51C)))
@@ -118,6 +126,8 @@
  *                                Definations                                  *
  *******************************************************************************/
 
+#define GPIO_LOCK_KEY 0x4C4F434B
+
 #define PIN_0 0
 #define PIN_1 1
 #define PIN_2 2
@@ -153,6 +163,13 @@ typedef enum
     PORT_OUTPUT = 0xFF
 } GPIO_PortDirectionType;
 
+typedef enum
+{
+    Pull_down,
+    Pull_up,
+    Floating
+} GPIO_Polarity_Select;
+
 /*******************************************************************************
  *                              Functions Prototypes                           *
  *******************************************************************************/
@@ -161,9 +178,15 @@ void GPIO_Init(GPIO_PortType port); // give the clock to the GPIO
 
 /*
  * Description :
+ * Initialize the GPIO given pin.
+ */
+
+void GPIO_Pin_Init(GPIO_PortType port, uint32 pin);
+/*
+ * Description :
  * Setup the direction of the required pin input/output.
  */
-void GPIO_setupPinDirection(GPIO_PortType port, uint8 pin, GPIO_PinDirectionType direction);
+void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polarity, GPIO_PinDirectionType direction);
 
 /*
  * Description :
