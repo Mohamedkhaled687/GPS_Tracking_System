@@ -184,7 +184,7 @@ void GPIO_Init(GPIO_PortType port); // give the clock to the GPIO
 void GPIO_Pin_Init(GPIO_PortType port, uint32 pin);
 /*
  * Description :
- * Setup the direction of the required pin input/output.
+ * Setup the Mode of the required pin input/output.
  */
 void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polarity, GPIO_PinDirectionType direction);
 
