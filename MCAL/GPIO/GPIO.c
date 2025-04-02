@@ -11,8 +11,6 @@
  *******************************************************************************/
 
 #include "GPIO.h"
-#include "../../LIB/common_macros.h"
-#include "../../LIB/std_types.h"
 
 /*
  * Description :
