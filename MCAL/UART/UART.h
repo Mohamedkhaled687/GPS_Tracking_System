@@ -202,11 +202,11 @@
 
 // found in page 1351 in Tiva C datasheet
 
-#define GPIO_PE4_UART5_RX 0x00000010 // PE4 is used for UART4 RX
-#define GPIO_PE5_UART5_TX 0x00000020 // PE5 is used for UART4 TX
+#define GPIO_PE4_UART5_RX 0x00000010 // PE4 is used for UART5 RX
+#define GPIO_PE5_UART5_TX 0x00000020 // PE5 is used for UART5 TX
 
-#define GPIO_PCTL_PE4_UART5_RX 0x00010000 // PE4 is used for UART4 RX
-#define GPIO_PCTL_PE5_UART5_TX 0x00100000 // PE5 is used for UART4 TX
+#define GPIO_PCTL_PE4_UART5_RX 0x00010000 // PE4 is used for UART5 RX
+#define GPIO_PCTL_PE5_UART5_TX 0x00100000 // PE5 is used for UART5 TX
 
 /**** UART6 Registers *****/
 
@@ -297,6 +297,10 @@
 #define UART_FR_BUSY 0x00000008 // UART Busy
 #define UART_FR_CTS 0x00000001  // Clear To Send
 
+#define UART_PARITY_DISABLE 0
+#define UART_PARITY_ODD 1
+#define UART_PARITY_EVEN 2
+
 /*******************************************************************************
  *                               Types Declaration                             *
  *******************************************************************************/
@@ -312,5 +316,16 @@ typedef enum
     UART6,
     UART7
 } UART_Select;
+
+/*******************************************************************************
+ *                              Functions Prototypes                           *
+ *******************************************************************************/
+
+/*
+ * Description :
+ * Initialize the required UART.
+ */
+
+void UART_Init(UART_Select uart_number);
 
 #endif
