@@ -23,7 +23,7 @@
 #define SYSTEM_CLOCK 80000000UL // 8 MHz
 
 /*******************************************************************************
- *                                Addresses                                  *
+ *                                Addresses                                    *
  *******************************************************************************/
 
 #define RCGCGPIO (*((volatile uint32 *)0x400FE608)) // GPIO Run Mode Clock Gating Control Register found in page 234 in Tiva C datasheet
@@ -98,7 +98,7 @@
 #define GPIO_PORTE_PDR_R (*((volatile uint32 *)(GPIO_PORTE_APB_BASE_ADDRESS + 0x514)))
 #define GPIO_PORTF_PDR_R (*((volatile uint32 *)(GPIO_PORTF_APB_BASE_ADDRESS + 0x514)))
 
-/******* GPIO Peripheral Selection Register *******/
+/******* GPIO Port Control Register *******/
 #define GPIO_PORTA_PCTL_R (*((volatile uint32 *)(GPIO_PORTA_APB_BASE_ADDRESS + 0x52C)))
 #define GPIO_PORTB_PCTL_R (*((volatile uint32 *)(GPIO_PORTB_APB_BASE_ADDRESS + 0x52C)))
 #define GPIO_PORTC_PCTL_R (*((volatile uint32 *)(GPIO_PORTC_APB_BASE_ADDRESS + 0x52C)))

@@ -272,4 +272,45 @@
 #define GPIO_PCTL_PE0_UART7_RX 0x00000001 // PE0 is used for UART7 RX
 #define GPIO_PCTL_PE1_UART7_TX 0x00000010 // PE1 is used for UART7 TX
 
+/*******************************************************************************
+ *                                Definations                                  *
+ *******************************************************************************/
+
+#define SYSCTL_RCGCUART (*((volatile uint32 *)0x400FE618)) // UART Run Mode Clock Gating Control Register found in page 234 in Tiva C datasheet
+#define UART_CLK 16000000                                  // 16 MHZ CLK
+#define UART_CTL_UARTEN 0x00000001                         // UART Enable
+#define UART_CTL_RXE 0x00000200                            // UART Receive Enable
+#define UART_CTL_TXE 0x00000100                            // UART Transmit Enable
+
+#define UART_LCRH_WLEN 0x00000060 // Word Length 8 bits
+#define UART_LCRH_FEN 0x00000010  // Enable FIFOs
+#define UART_LCRH_STP2 0x00000008 // Two Stop Bits Select
+#define UART_LCRH_PEN 0x00000001  // Parity Enable
+#define UART_LCRH_EPS 0x00000004  // Even Parity Select
+#define UART_LCRH_BRK 0x00000001  // UART Send Break
+#define UART_LCRH_SPS 0x00000002  // Stick Parity Select
+
+#define UART_FR_TXFE 0x00000080 // Transmit FIFO Empty
+#define UART_FR_RXFE 0x00000010 // Receive FIFO Empty
+#define UART_FR_RXFF 0x00000040 // Receive FIFO Full
+#define UART_FR_TXFF 0x00000020 // Transmit FIFO Full
+#define UART_FR_BUSY 0x00000008 // UART Busy
+#define UART_FR_CTS 0x00000001  // Clear To Send
+
+/*******************************************************************************
+ *                               Types Declaration                             *
+ *******************************************************************************/
+
+typedef enum
+{
+    UART0,
+    UART1,
+    UART2,
+    UART3,
+    UART4,
+    UART5,
+    UART6,
+    UART7
+} UART_Select;
+
 #endif
