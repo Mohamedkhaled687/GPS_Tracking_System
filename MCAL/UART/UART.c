@@ -461,3 +461,219 @@ void UART_Config(UART_ConfigType *Config_Ptr)
         break;
     }
 }
+
+/*
+ * Description :
+ * Check the read for the required UART.
+ */
+
+uint8 UART_ReadAvailable(UART_Select uart_number)
+{
+
+    switch (uart_number)
+    {
+    case UART0:
+        return ((UART0_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+
+    case UART1:
+        return ((UART1_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+
+    case UART2:
+        return ((UART2_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+
+    case UART3:
+        return ((UART3_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+
+    case UART4:
+        return ((UART4_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+
+    case UART5:
+        return ((UART5_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+
+    case UART6:
+        return ((UART6_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+
+    case UART7:
+        return ((UART7_FR_R & UART_FR_RXFE) == (UART_FR_RXFE)) ? 1 : 0; // check if the receive FIFO is empty
+    }
+}
+
+/*
+ * Description :
+ * Check the Send for the required UART.
+ */
+
+uint8 UART_SendAvailable(UART_Select uart_number)
+{
+
+    switch (uart_number)
+    {
+    case UART0:
+        return ((UART0_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+
+    case UART1:
+        return ((UART1_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+
+    case UART2:
+        return ((UART2_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+
+    case UART3:
+        return ((UART3_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+
+    case UART4:
+        return ((UART4_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+
+    case UART5:
+        return ((UART5_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+
+    case UART6:
+        return ((UART7_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+
+    case UART7:
+        return ((UART7_FR_R & UART_FR_TXFF) == (UART_FR_TXFF)) ? 1 : 0; // check if the transmit FIFO is full
+    }
+}
+
+/*
+ * Description :
+ * Functional responsible for send byte to another UART device.
+ */
+void UART_SendByte(UART_Select uart_number, const uint8 data)
+{
+
+    switch (uart_number)
+    {
+    case UART0:
+        while ((UART_SendAvailable(UART0)))
+            ;              // wait until the transmit FIFO is empty
+        UART0_DR_R = data; // send the data
+        break;
+
+    case UART1:
+        while ((UART_SendAvailable(UART1)))
+            ;              // wait until the transmit FIFO is empty
+        UART1_DR_R = data; // send the data
+        break;
+
+    case UART2:
+        while ((UART_SendAvailable(UART2)))
+            ;              // wait until the transmit FIFO is empty
+        UART2_DR_R = data; // send the data
+        break;
+
+    case UART3:
+        while ((UART_SendAvailable(UART3)))
+            ;              // wait until the transmit FIFO is empty
+        UART3_DR_R = data; // send the data
+        break;
+
+    case UART4:
+        while ((UART_SendAvailable(UART4)))
+            ;              // wait until the transmit FIFO is empty
+        UART4_DR_R = data; // send the data
+        break;
+
+    case UART5:
+        while ((UART_SendAvailable(UART5)))
+            ;              // wait until the transmit FIFO is empty
+        UART5_DR_R = data; // send the data
+        break;
+
+    case UART6:
+        while ((UART_SendAvailable(UART6)))
+            ;              // wait until the transmit FIFO is empty
+        UART6_DR_R = data; // send the data
+        break;
+
+    case UART7:
+        while (!(UART_SendAvailable(UART7)))
+            ;              // wait until the transmit FIFO is empty
+        UART7_DR_R = data; // send the data
+        break;
+    }
+}
+
+/*
+ * Description :
+ * Functional responsible for receive byte from another UART device.
+ */
+uint8 UART_recieveByte(UART_Select uart_number)
+{
+
+    switch (uart_number)
+    {
+    case UART0:
+        while ((UART_ReadAvailable(UART0)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART0_DR_R &= UART_DATA_MASK; // receive the data
+
+    case UART1:
+        while ((UART_ReadAvailable(UART1)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART1_DR_R &= UART_DATA_MASK; // receive the data
+
+    case UART2:
+        while ((UART_ReadAvailable(UART2)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART2_DR_R &= UART_DATA_MASK; // receive the data
+
+    case UART3:
+        while ((UART_ReadAvailable(UART3)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART3_DR_R &= UART_DATA_MASK; // receive the data
+
+    case UART4:
+        while ((UART_ReadAvailable(UART4)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART4_DR_R &= UART_DATA_MASK; // receive the data
+
+    case UART5:
+        while ((UART_ReadAvailable(UART5)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART5_DR_R &= UART_DATA_MASK; // receive the data
+
+    case UART6:
+        while ((UART_ReadAvailable(UART6)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART6_DR_R &= UART_DATA_MASK; // receive the data
+    case UART7:
+        while ((UART_ReadAvailable(UART7)))
+            ;                                // wait until the receive FIFO is not empty
+        return UART7_DR_R &= UART_DATA_MASK; // receive the data
+    }
+}
+
+/*
+ * Description :
+ * Functional responsible for send string to another UART device.
+ */
+void UART_SendString(UART_Select uart_number, const uint8 *str)
+{
+    while (*str != '\0') // loop until the end of the string
+    {
+        UART_SendByte(uart_number, *str); // send each character
+        str++;                            // move to the next character
+    }
+}
+
+/*
+ * Description :
+ * Functional responsible for receive string from another UART device.
+ */
+void UART_recieveString(UART_Select uart_number, uint8 *buffer)
+{
+    int i = 0;  // index for the buffer
+    uint8 data; // variable to store the received data
+
+    while (1) // infinite loop
+    {
+        data = UART_recieveByte(uart_number); // receive the data
+        if (data == '\0')                     // check if the end of the string is reached
+        {
+            break; // exit the loop
+        }
+        buffer[i] = data; // store the received data in the buffer
+        i++;              // move to the next index
+    }
+    buffer[i] = '\0'; // add the null terminator to the end of the string
+}

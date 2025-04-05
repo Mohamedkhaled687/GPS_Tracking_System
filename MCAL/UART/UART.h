@@ -303,6 +303,7 @@
 
 #define UART_IBRD_MASK 0x0000FFFF
 #define UART_FBRD_MASK 0x0000003F
+#define UART_DATA_MASK 0x000000FF
 
 /*******************************************************************************
  *                               Types Declaration                             *
@@ -347,4 +348,41 @@ void UART_Init(UART_Select uart_number);
 
 void UART_Config(UART_ConfigType *Config_Ptr);
 
+/*
+ * Description :
+ * Check the read for the required UART.
+ */
+
+uint8 UART_ReadAvailable(UART_Select uart_number);
+
+/*
+ * Description :
+ * Check the Send for the required UART.
+ */
+
+uint8 UART_SendAvailable(UART_Select uart_number);
+
+/*
+ * Description :
+ * Functional responsible for send byte to another UART device.
+ */
+void UART_SendByte(UART_Select uart_number, const uint8 data);
+
+/*
+ * Description :
+ * Functional responsible for receive byte from another UART device.
+ */
+uint8 UART_recieveByte(UART_Select uart_number);
+
+/*
+ * Description :
+ * Functional responsible for send string to another UART device.
+ */
+void UART_SendString(UART_Select uart_number, const uint8 *str);
+
+/*
+ * Description :
+ * Functional responsible for receive string from another UART device.
+ */
+void UART_recieveString(UART_Select uart_number, uint8 *buffer);
 #endif
