@@ -320,6 +320,16 @@ typedef enum
     UART7
 } UART_Select;
 
+typedef struct
+{
+    UART_Select uart_number; // UART number
+    uint8 DataBits;          // Data bits (5, 6, 7, 8)
+    uint8 parity;            // Parity (0: disable, 1: odd, 2: even)
+    uint8 stop_bits;         // Stop bits (1 or 2)
+    uint32 IBRD;             // Integer Baud Rate
+    uint32 FBRD;             // Fractional Baud Rate
+} UART_ConfigType;
+
 /*******************************************************************************
  *                              Functions Prototypes                           *
  *******************************************************************************/
@@ -335,6 +345,6 @@ void UART_Init(UART_Select uart_number);
  * Configure the required UART.
  */
 
-void UART_Config(UART_Select uart_number, uint8 DataBits, uint8 parity, uint8 stop_bits, uint32 IBRD, uint32 FBRD);
+void UART_Config(UART_ConfigType *Config_Ptr);
 
 #endif

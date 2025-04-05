@@ -419,5 +419,45 @@ void UART_Config(UART_ConfigType *Config_Ptr)
 
     case UART7:
         SET_BIT(SYSCTL_RCGCUART, UART7); // Enable UART7 clock
+        GPIO_Init(GPIO_PORTE);           // Initialize GPIO for UART7
+        UART_Init(UART7);                // Initialize UART7
+
+        UART7_CTL_R &= ~(UART_CTL_UARTEN); // disable the UART before configuration
+
+        UART7_IBRD_R &= ~(UART_IBRD_MASK); // Clear before write
+        UART7_IBRD_R = Config_Ptr->IBRD;   // set integer baud rate
+
+        UART7_FBRD_R &= ~(UART_FBRD_MASK); // Clear before write
+        UART7_FBRD_R = Config_Ptr->FBRD;   // set fractional baud rate
+
+        UART7_LCRH_R &= ~((Config_Ptr->DataBits - 5) << UART_LCRH_WLEN); // Clear before write
+        UART7_LCRH_R |= (Config_Ptr->DataBits - 5) << UART_LCRH_WLEN;    // set data format
+
+        UART7_LCRH_R |= UART_LCRH_FEN; // Enable FIFOs
+
+        if (Config_Ptr->parity == UART_PARITY_DISABLE)
+        {
+            UART7_LCRH_R &= ~(UART_LCRH_PEN | UART_LCRH_EPS | UART_LCRH_SPS); // disable parity
+        }
+        else if (Config_Ptr->parity == UART_PARITY_ODD)
+        {
+            UART7_LCRH_R |= (UART_LCRH_PEN | UART_LCRH_SPS) & (~UART_LCRH_EPS); // enable odd parity
+        }
+        else if (Config_Ptr->parity == UART_PARITY_EVEN)
+        {
+            UART7_LCRH_R |= UART_LCRH_PEN | UART_LCRH_EPS | UART_LCRH_SPS;
+        }
+
+        if (Config_Ptr->stop_bits == 2)
+        {
+            UART7_LCRH_R |= UART_LCRH_STP2; // set two stop bits
+        }
+        else
+        {
+            UART7_LCRH_R &= ~UART_LCRH_STP2; // set one stop bit
+        }
+
+        UART7_CTL_R |= (UART_CTL_UARTEN | UART_CTL_RXE | UART_CTL_TXE); // enable the UART after configuration
+        break;
     }
 }
