@@ -346,7 +346,7 @@ void UART_Init(UART_Select uart_number);
  * Configure the required UART.
  */
 
-void UART_Config(UART_ConfigType *Config_Ptr);
+void UART_Config(const UART_ConfigType *Config_Ptr);
 
 /*
  * Description :
