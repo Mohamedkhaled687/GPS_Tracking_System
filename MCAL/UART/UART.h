@@ -282,7 +282,7 @@
 #define UART_CTL_RXE 0x00000200                            // UART Receive Enable
 #define UART_CTL_TXE 0x00000100                            // UART Transmit Enable
 
-#define UART_LCRH_WLEN 0x00000060 // Word Length 8 bits
+#define UART_LCRH_WLEN 5          // amount of shift
 #define UART_LCRH_FEN 0x00000010  // Enable FIFOs
 #define UART_LCRH_STP2 0x00000008 // Two Stop Bits Select
 #define UART_LCRH_PEN 0x00000001  // Parity Enable
@@ -300,6 +300,9 @@
 #define UART_PARITY_DISABLE 0
 #define UART_PARITY_ODD 1
 #define UART_PARITY_EVEN 2
+
+#define UART_IBRD_MASK 0x0000FFFF
+#define UART_FBRD_MASK 0x0000003F
 
 /*******************************************************************************
  *                               Types Declaration                             *
@@ -325,7 +328,13 @@ typedef enum
  * Description :
  * Initialize the required UART.
  */
-
 void UART_Init(UART_Select uart_number);
+
+/*
+ * Description :
+ * Configure the required UART.
+ */
+
+void UART_Config(UART_Select uart_number, uint8 DataBits, uint8 parity, uint8 stop_bits, uint32 IBRD, uint32 FBRD);
 
 #endif
