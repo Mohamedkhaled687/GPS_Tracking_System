@@ -1,3 +1,3 @@
 # GPS_Tracking_System
 
-https://ja-bots.com/wp-content/uploads/2021/01/Tiva.jpg
+![Image](https://github.com/user-attachments/assets/df070ba6-7bcf-4186-a9d9-c22b50fb0a76)
