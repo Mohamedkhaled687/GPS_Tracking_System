@@ -39,6 +39,8 @@
  * Initialize the SWITCH Module.
  */
 
+void SWITCH_Init(void);
+
 /*
  * Description :
  * Read the state of the specified switch.
