@@ -11,6 +11,9 @@
  *******************************************************************************/
 
 #include "stdio.h"
+#include "HAL\LED\LED.c"
+#include "MCAL\UART\UART.c"
+#include "HAL\SWITCH\SWITCH.c"
 
 void SystemInit() {};
 
