@@ -24,11 +24,11 @@
 
 #define SWITCH_PORT GPIO_PORTF
 
-#define SW1 1
-#define SW2 2
-
-#define SW1_PIN PIN_4
-#define SW2_PIN PIN_0
+typedef enum
+{
+    SW_1 = 4, /**< Switch 1 */
+    SW_2 = 0  /**< Switch 2 */
+} SWITCHES;
 
 /*******************************************************************************
  *                               Functions Prototype                            *
