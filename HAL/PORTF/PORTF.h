@@ -83,4 +83,12 @@ void PORTF_SetLedValue(uint8 LedColor, uint8 LedState); // LedState-->ON OR OFF 
 
 void PORTF_led_Toggle(unsigned char LED_PIN); // LED TOGGLE
 
+/*
+ * Description :
+ * Turn off the LEDs
+ */
+
+void PORTF_leds_Off(); // LEDs TURN OFF
+
+
 #endif 
