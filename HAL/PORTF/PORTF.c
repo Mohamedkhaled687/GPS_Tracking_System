@@ -55,4 +55,28 @@ uint8 PORTF_GetSwitchValue(uint8 SWITCH)
     return GPIO_readPin(GPIO_PORTF, SWITCH);
 }
 
+/*
+ * Description :
+ * Set the value for the required pin, it should be Logic High or Logic Low.
+ */
+void PORTF_SetLedValue(uint8 LedColor, uint8 LedState)
+{ // LedState-->ON OR OFF
+    switch (LedColor)
+    {
+    case RED:
+        GPIO_writePin(GPIO_PORTF, PIN_1, LedState);
+        break;
+
+    case BLUE:
+        GPIO_writePin(GPIO_PORTF, PIN_2, LedState);
+        break;
+
+    case GREEN:
+        GPIO_writePin(GPIO_PORTF, PIN_3, LedState);
+        break;
+
+    default:
+        break;
+    }
+}
 
