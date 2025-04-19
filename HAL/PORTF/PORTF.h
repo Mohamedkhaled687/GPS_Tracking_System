@@ -56,4 +56,11 @@
  */
 void PORTF_LEDS_Init(void);
 
+/*
+ * Description :
+ * Setup the Mode of the required pin input/output.
+ */
+
+void PORTF_SW1_SW2_Init(void);
+
 #endif 
