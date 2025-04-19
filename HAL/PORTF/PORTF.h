@@ -76,4 +76,11 @@ uint8 PORTF_GetSwitchValue(uint8 SW);
 
 void PORTF_SetLedValue(uint8 LedColor, uint8 LedState); // LedState-->ON OR OFF According Led Color
 
+/*
+ * Description :
+ * Toggle the specified LEd
+ */
+
+void PORTF_led_Toggle(unsigned char LED_PIN); // LED TOGGLE
+
 #endif 
