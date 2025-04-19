@@ -1,6 +1,6 @@
 #define PI 3.14159265359
 
-const double EARTH_RADIUS = 6378000;
+const double EARTH_RADIUS = 6371000;
 
 
 /* PROTOTYPES */
