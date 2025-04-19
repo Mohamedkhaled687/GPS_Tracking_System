@@ -21,5 +21,8 @@ void delay_ms(uint32 ms)
     }
 }
 
-int main(void){
+int main(void)
+{
+    PORTF_LEDS_Init();     // Initialize the PORTF LEDs
+    PORTF_SWITCHES_Init(); // Initialize the PORTF Switches
 }
