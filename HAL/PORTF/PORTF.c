@@ -10,10 +10,6 @@
  *
  *******************************************************************************/
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6b468b5741add909ea78e6ffe84a3c414908d937
 #include "PORTF.h"
 #include "../../MCAL/GPIO/GPIO.c"
 
@@ -100,9 +96,4 @@ void PORTF_led_Toggle(uint8 LED_PIN)
 void PORTF_leds_Off()
 {
     GPIO_PORTF_DATA_R &= ~(LEDS_MASK);
-<<<<<<< HEAD
 }
-=======
-}
-
->>>>>>> 6b468b5741add909ea78e6ffe84a3c414908d937
