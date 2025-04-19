@@ -42,10 +42,6 @@
 #define BLUE 2
 #define GREEN 3
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 6b468b5741add909ea78e6ffe84a3c414908d937
 /*******************************************************************************
  *                      Functions Prototypes                                   *
  *******************************************************************************/
@@ -93,8 +89,4 @@ void PORTF_led_Toggle(unsigned char LED_PIN); // LED TOGGLE
 
 void PORTF_leds_Off(); // LEDs TURN OFF
 
-<<<<<<< HEAD
 #endif
-=======
-#endif
->>>>>>> 6b468b5741add909ea78e6ffe84a3c414908d937
