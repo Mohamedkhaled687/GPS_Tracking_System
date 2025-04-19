@@ -20,3 +20,6 @@ void delay_ms(uint32 ms)
         } // adjust for your clock speed
     }
 }
+
+int main(void){
+}
