@@ -16,7 +16,6 @@
 
 #include "../../LIB/common_macros.h"
 #include "../../LIB/std_types.h"
-#include "../../MCAL/GPIO/GPIO.h"
 
 /*******************************************************************************
  *                                Definations                                  *

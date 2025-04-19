@@ -80,42 +80,36 @@ void GPIO_Pin_Init(GPIO_PortType port, uint32 pin)
         SET_BIT(GPIO_PORTA_CR_R, pin);      // allow changes to the pin
         CLEAR_BIT(GPIO_PORTA_AMSEL_R, pin); // disable analog mode
         CLEAR_BIT(GPIO_PORTA_AFSEL_R, pin); // disable alternate function
-        SET_BIT(GPIO_PORTA_DEN_R, pin);     // enable digital mode
         break;
 
     case GPIO_PORTB:
         SET_BIT(GPIO_PORTB_CR_R, pin);      // allow changes to the pin
         CLEAR_BIT(GPIO_PORTB_AMSEL_R, pin); // disable analog mode
         CLEAR_BIT(GPIO_PORTB_AFSEL_R, pin); // disable alternate function
-        SET_BIT(GPIO_PORTB_DEN_R, pin);     // enable digital mode
         break;
 
     case GPIO_PORTC:
         SET_BIT(GPIO_PORTC_CR_R, pin);      // allow changes to the pin
         CLEAR_BIT(GPIO_PORTC_AMSEL_R, pin); // disable analog mode
         CLEAR_BIT(GPIO_PORTC_AFSEL_R, pin); // disable alternate function
-        SET_BIT(GPIO_PORTC_DEN_R, pin);     // enable digital mode
         break;
 
     case GPIO_PORTD:
         SET_BIT(GPIO_PORTD_CR_R, pin);      // allow changes to the pin
         CLEAR_BIT(GPIO_PORTD_AMSEL_R, pin); // disable analog mode
         CLEAR_BIT(GPIO_PORTD_AFSEL_R, pin); // disable alternate function
-        SET_BIT(GPIO_PORTD_DEN_R, pin);     // enable digital mode
         break;
 
     case GPIO_PORTE:
         SET_BIT(GPIO_PORTE_CR_R, pin);      // allow changes to the pin
         CLEAR_BIT(GPIO_PORTE_AMSEL_R, pin); // disable analog mode
         CLEAR_BIT(GPIO_PORTE_AFSEL_R, pin); // disable alternate function
-        SET_BIT(GPIO_PORTE_DEN_R, pin);     // enable digital mode
         break;
 
     case GPIO_PORTF:
         SET_BIT(GPIO_PORTF_CR_R, pin);      // allow changes to the pin
         CLEAR_BIT(GPIO_PORTF_AMSEL_R, pin); // disable analog mode
         CLEAR_BIT(GPIO_PORTF_AFSEL_R, pin); // disable alternate function
-        SET_BIT(GPIO_PORTF_DEN_R, pin);     // enable digital mode
         break;
     }
 }
@@ -152,6 +146,7 @@ void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polar
             CLEAR_BIT(GPIO_PORTA_PUR_R, pin); // disable pull up resistor
             CLEAR_BIT(GPIO_PORTA_PDR_R, pin); // disable pull down resistor
         }
+        SET_BIT(GPIO_PORTA_DEN_R, pin); // enable digital mode
         break;
 
     case GPIO_PORTB:
@@ -176,6 +171,7 @@ void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polar
             CLEAR_BIT(GPIO_PORTB_PUR_R, pin); // disable pull up resistor
             CLEAR_BIT(GPIO_PORTB_PDR_R, pin); // disable pull down resistor
         }
+        SET_BIT(GPIO_PORTB_DEN_R, pin); // enable digital mode
         break;
 
     case GPIO_PORTC:
@@ -201,6 +197,7 @@ void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polar
             CLEAR_BIT(GPIO_PORTC_PUR_R, pin); // disable pull up resistor
             CLEAR_BIT(GPIO_PORTC_PDR_R, pin); // disable pull down resistor
         }
+        SET_BIT(GPIO_PORTC_DEN_R, pin); // enable digital mode
         break;
 
     case GPIO_PORTD:
@@ -225,6 +222,7 @@ void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polar
             CLEAR_BIT(GPIO_PORTD_PUR_R, pin); // disable pull up resistor
             CLEAR_BIT(GPIO_PORTD_PDR_R, pin); // disable pull down resistor
         }
+        SET_BIT(GPIO_PORTD_DEN_R, pin); // enable digital mode
         break;
 
     case GPIO_PORTF:
@@ -249,6 +247,7 @@ void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polar
             CLEAR_BIT(GPIO_PORTF_PUR_R, pin); // disable pull up resistor
             CLEAR_BIT(GPIO_PORTF_PDR_R, pin); // disable pull down resistor
         }
+        SET_BIT(GPIO_PORTF_DEN_R, pin); // enable digital mode
         break;
     }
 }

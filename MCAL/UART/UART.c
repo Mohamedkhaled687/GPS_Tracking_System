@@ -12,7 +12,7 @@
 
 #include "UART.h"
 #include <stdint.h>
-#include "../GPIO/GPIO.h"
+#include "../GPIO/GPIO.c"
 
 /*
  * Description :
