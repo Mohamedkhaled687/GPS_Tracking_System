@@ -63,4 +63,10 @@ void PORTF_LEDS_Init(void);
 
 void PORTF_SW1_SW2_Init(void);
 
+/*
+ * Description :
+ * Read and return the value for the required pin, it should be Logic High or Logic Low.
+ */
+uint8 PORTF_GetSwitchValue(uint8 SW);
+
 #endif 
