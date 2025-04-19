@@ -42,4 +42,18 @@
 #define BLUE 2
 #define GREEN 3
 
+
+/*******************************************************************************
+ *                      Functions Prototypes                                   *
+ *******************************************************************************/
+
+/*
+ * Description :
+ * Setup the Mode of the required pin input/output.
+ * Initialize the clock for the portF.
+ * Unlock the portF pins.
+ * Allow changing the pin 1,2,3 in portF.
+ */
+void PORTF_LEDS_Init(void);
+
 #endif 
