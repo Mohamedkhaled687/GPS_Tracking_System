@@ -77,12 +77,6 @@ void parseGPRMC() {
     }
 }
 
-float convertToDegrees(float nmeaCoord) {
-    int degrees = (int)(nmeaCoord / 100);              // Get the degree part
-    float minutes = nmeaCoord - (degrees * 100);       // Get the minutes part
-    return degrees + (minutes / 60.0);                 // Convert to decimal
-}
-
 float convertToRad(float degrees) {
     return degrees * (PI/180);
 }
@@ -92,10 +86,10 @@ float convertToRad(float degrees) {
 */
 float Calculate_Distance (float lat1, float long1, float lat2, float long2) {
     // Convert to Rad
-    lat1 = convertToRad(convertToDegrees(lat1));
-    long1 = convertToRad(convertToDegrees(long1));
-    lat2 = convertToRad(convertToDegrees(lat2));
-    long2 = convertToRad(convertToDegrees(long2));
+    lat1 = convertToRad(lat1);
+    long1 = convertToRad(long1);
+    lat2 = convertToRad(lat2);
+    long2 = convertToRad(long2);
     // Differences
     double diff_lat = lat2 - lat1;
     double diff_long = long2 - long1;
