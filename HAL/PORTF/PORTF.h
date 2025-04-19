@@ -69,4 +69,11 @@ void PORTF_SW1_SW2_Init(void);
  */
 uint8 PORTF_GetSwitchValue(uint8 SW);
 
+/*
+ * Description :
+ * Write the value Logic High or Logic Low on the required pin.
+ */
+
+void PORTF_SetLedValue(uint8 LedColor, uint8 LedState); // LedState-->ON OR OFF According Led Color
+
 #endif 
