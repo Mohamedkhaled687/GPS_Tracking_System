@@ -6,7 +6,7 @@
  *
  * Description: Header File for Tiva C PortF Driver
  *
- * Author: Bassam Hussam
+ * Author: Mohamed Khaled
  *
  *******************************************************************************/
 
