@@ -80,3 +80,12 @@ void PORTF_SetLedValue(uint8 LedColor, uint8 LedState)
     }
 }
 
+/*
+ * Description :
+ * Toggle the value for the required pin.
+ */
+void PORTF_led_Toggle(uint8 LED_PIN)
+{
+    TOGGLE_BIT(GPIO_PORTF_DATA_R, LED_PIN);
+}
+
