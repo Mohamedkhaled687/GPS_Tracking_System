@@ -89,3 +89,12 @@ void PORTF_led_Toggle(uint8 LED_PIN)
     TOGGLE_BIT(GPIO_PORTF_DATA_R, LED_PIN);
 }
 
+/*
+ * Description :
+ * Turn off the LEDs of PORTF.
+ */
+void PORTF_leds_Off()
+{
+    GPIO_PORTF_DATA_R &= ~(LEDS_MASK);
+}
+
