@@ -4,3 +4,8 @@
  * @author         : Bassam Hussam
  *
  *******************************************************************************/
+
+#include "stdio.h"
+#include "..\HAL\PORTF\PORTF.c"
+
+void SystemInit() {};
