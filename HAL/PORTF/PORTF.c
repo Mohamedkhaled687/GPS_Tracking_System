@@ -55,3 +55,4 @@ uint8 PORTF_GetSwitchValue(uint8 SWITCH)
     return GPIO_readPin(GPIO_PORTF, SWITCH);
 }
 
+
