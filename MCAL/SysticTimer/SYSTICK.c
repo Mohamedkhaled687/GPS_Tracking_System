@@ -40,3 +40,17 @@ void SysTick_DelayMs(uint32 ms)
         SYSTICK_CTRL &= ~SYSTICK_ENABLE;
     }
 }
+
+void SysTick_DelayUs(uint32 us)
+{
+    uint32 ticksPerUs = SysCtlClockGet() / 1000000;
+
+    for(uint32 i = 0; i < us; i++)
+    {
+        SYSTICK_RELOAD = ticksPerUs - 1;
+        SYSTICK_CURRENT = 0;
+        SYSTICK_CTRL |= SYSTICK_ENABLE;
+        while ((SYSTICK_CTRL & (1 << 16)) == 0);
+        SYSTICK_CTRL &= ~SYSTICK_ENABLE;
+    }
+}

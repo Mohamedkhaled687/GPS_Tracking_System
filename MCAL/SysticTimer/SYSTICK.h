@@ -44,5 +44,11 @@ void SysTick_Init(void);
  * ms Number of milliseconds to delay.
  */
 void SysTick_DelayMs(uint32 ms);
+/**
+ * Function desciption:
+ * Delays execution for the specified number of microseconds .
+ * ms Number of microseconds to delay.
+ */
+void SysTick_DelayUs(uint32 us);
 
 #endif // SYSTICK_H_
