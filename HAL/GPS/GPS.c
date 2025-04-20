@@ -8,7 +8,7 @@
 
 char GPS[80];
 char GPS_logName[] = "$GPRMC,";
-
+char GPS_output[80];
 char GPS_formated[12][20];
 char *token;
 //30.063768832165547, 31.279524810824068 (MIDDLE OF 11YARD PLAYGROUND IN COLLEGE)
@@ -21,7 +21,7 @@ void Get_GPRMC() {
     char flag = 1;
 		char recievedByte;
     char fillCounter = 0;
-	
+    UART_recieveString(UART0, GPS_output);
     do {
         flag = 1;
         for (i = 0; i < 7; i++) {
