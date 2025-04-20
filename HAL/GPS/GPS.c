@@ -21,7 +21,7 @@ void Get_GPRMC() {
     char flag = 1;
 		char recievedByte;
     char fillCounter = 0;
-    UART_recieveString(UART0, GPS_output);
+    UART_recieveString(UART0, GPS);
     do {
         flag = 1;
         for (i = 0; i < 7; i++) {
