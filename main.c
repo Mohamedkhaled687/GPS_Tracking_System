@@ -11,8 +11,8 @@
  *******************************************************************************/
 
 #include "stdio.h"
-#include "MCAL\UART\UART.c"
 #include "HAL\PORTF\PORTF.c"
+#include "MCAL\SysticTimer\SYSTICK.h"
 
 void SystemInit() {};
 
@@ -21,24 +21,27 @@ void delay_ms(uint32 ms)
     volatile uint32 count;
     while (ms--)
     {
-        for (count = 0; count < 4000; count++)
+        for (count = 16000; count > 0; count--)
         {
-        } // adjust for your clock speed
+            // Empty loop for delay
+        }
     }
 }
 
 int main(void)
 {
+    uint8 switch_state = 1;      // Assume 1 means not pressed, 0 means pressed
+    uint8 buttonPressedFlag = 0; // Edge-detection flag
+
     PORTF_SW1_SW2_Init();
     PORTF_LEDS_Init();
+    SysTick_Init();
 
     while (1)
     {
-        if (PORTF_GetSwitchValue(SW1) == SW_PRESSED) // Check if SW1 is pressed
-        {
-            delay_ms(30); // Debounce delay
-            PORTF_led_Toggle(RED);
-        }
+        PORTF_SetLedValue(BLUE, LED_ON);
+        SysTick_DelayMs(1000);
+        PORTF_SetLedValue(BLUE, LED_OFF);
     }
 
     return 0; // Return success

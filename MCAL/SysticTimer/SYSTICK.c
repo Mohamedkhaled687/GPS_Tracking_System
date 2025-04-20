@@ -1,8 +1,6 @@
+
 #include "systick.h"
-//#include "../../LIB/sysctl.h"
 #include "../../LIB/std_types.h"
-
-
 //*****************************************************************************
 // Initializes the SysTick timer with system clock, no interrupts.
 //*****************************************************************************
@@ -22,7 +20,7 @@ void SysTick_DelayMs(uint32 ms)
 {
     uint32 ticksPerMs = SysCtlClockGet() / 1000;
 
-    while(ms--)
+    while (ms--)
     {
         // Set reload value for 1ms delay
         SYSTICK_RELOAD = ticksPerMs - 1;
@@ -34,7 +32,8 @@ void SysTick_DelayMs(uint32 ms)
         SYSTICK_CTRL |= SYSTICK_ENABLE;
 
         // Wait for COUNT flag (bit 16) to be set
-        while((SYSTICK_CTRL & (1 << 16)) == 0);
+        while ((SYSTICK_CTRL & (1 << 16)) == 0)
+            ;
 
         // Stop the timer (optional for single-shot)
         SYSTICK_CTRL &= ~SYSTICK_ENABLE;

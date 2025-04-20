@@ -86,7 +86,7 @@ void PORTF_SetLedValue(uint8 LedColor, uint8 LedState)
  */
 void PORTF_led_Toggle(uint8 LED_PIN)
 {
-    TOGGLE_BIT(GPIO_PORTF_DATA_R, LED_PIN);
+    GPIO_writePin(GPIO_PORTF, LED_PIN, !GPIO_readPin(GPIO_PORTF, LED_PIN));
 }
 
 /*
