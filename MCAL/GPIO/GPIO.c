@@ -225,6 +225,31 @@ void GPIO_setupPinMode(GPIO_PortType port, uint8 pin, GPIO_Polarity_Select Polar
         SET_BIT(GPIO_PORTD_DEN_R, pin); // enable digital mode
         break;
 
+    case GPIO_PORTE:
+        if (direction == PIN_OUTPUT)
+        {
+            SET_BIT(GPIO_PORTE_DIR_R, pin); // set the pin as output
+        }
+        else
+        {
+            CLEAR_BIT(GPIO_PORTE_DIR_R, pin); // set the pin as input
+        }
+        if (Polarity == Pull_up)
+        {
+            SET_BIT(GPIO_PORTE_PUR_R, pin); // enable pull up resistor
+        }
+        else if (Polarity == Pull_down)
+        {
+            SET_BIT(GPIO_PORTE_PDR_R, pin); // enable pull down resistor
+        }
+        else
+        {
+            CLEAR_BIT(GPIO_PORTE_PUR_R, pin); // disable pull up resistor
+            CLEAR_BIT(GPIO_PORTE_PDR_R, pin); // disable pull down resistor
+        }
+        SET_BIT(GPIO_PORTE_DEN_R, pin); // enable digital mode
+        break;
+
     case GPIO_PORTF:
         if (direction == PIN_OUTPUT)
         {

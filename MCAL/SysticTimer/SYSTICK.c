@@ -1,55 +1,47 @@
+/******************************************************************************
+ *
+ * Module: Systick Timer
+ *
+ * File Name : SYSTICK.c
+ *
+ * Description: Source File for Tiva C Systick Driver
+ *
+ * Author: Houssam Magdy
+ *
+ *******************************************************************************/
 
-#include "systick.h"
-#include "../../LIB/std_types.h"
-//*****************************************************************************
-// Initializes the SysTick timer with system clock, no interrupts.
-//*****************************************************************************
+#include "SYSTICK.h"
+
+/*
+ * Description: Initialize the SysTick driver
+ *              - Disable SysTick IRQ
+ *              - Use processor clock source
+ *              - Set reload value to 16000 - 1
+ *              - Clear current value
+ *              - Enable SysTick
+ */
+
 void SysTick_Init(void)
 {
-    // Disable SysTick during setup
     SYSTICK_CTRL = 0;
-
-    // Configure: system clock source, no interrupt, do not start yet
-    SYSTICK_CTRL = SYSTICK_CLK_SRC_SYS | SYSTICK_INT_DISABLE;
+    SYSTICK_RELOAD = 16000 - 1;
+    SYSTICK_CURRENT = 0;
+    SYSTICK_CTRL |= SYSTICK_CTRL_ENABLE_MASK | SYSTICK_CTRL_CLKSOURCE_MASK;
 }
 
-//*****************************************************************************
-// Delays the program for a given number of milliseconds (blocking).
-//*****************************************************************************
+/*
+ * Description: Delay function using SysTick
+ *              - Initialize SysTick
+ *              - Wait for the SysTick to count down
+ */
+
 void SysTick_DelayMs(uint32 ms)
 {
-    uint32 ticksPerMs = SysCtlClockGet() / 1000;
-
-    while (ms--)
+    uint32 i;
+    for (i = 0; i < ms; i++)
     {
-        // Set reload value for 1ms delay
-        SYSTICK_RELOAD = ticksPerMs - 1;
-
-        // Clear current counter value (writing any value clears it)
-        SYSTICK_CURRENT = 0;
-
-        // Start the timer
-        SYSTICK_CTRL |= SYSTICK_ENABLE;
-
-        // Wait for COUNT flag (bit 16) to be set
-        while ((SYSTICK_CTRL & (1 << 16)) == 0)
+        SysTick_Init(); /* Initialize SysTick */
+        while ((SYSTICK_CTRL & SYSTICK_CTRL_COUNTFLAG_MASK) == 0)
             ;
-
-        // Stop the timer (optional for single-shot)
-        SYSTICK_CTRL &= ~SYSTICK_ENABLE;
-    }
-}
-
-void SysTick_DelayUs(uint32 us)
-{
-    uint32 ticksPerUs = SysCtlClockGet() / 1000000;
-
-    for(uint32 i = 0; i < us; i++)
-    {
-        SYSTICK_RELOAD = ticksPerUs - 1;
-        SYSTICK_CURRENT = 0;
-        SYSTICK_CTRL |= SYSTICK_ENABLE;
-        while ((SYSTICK_CTRL & (1 << 16)) == 0);
-        SYSTICK_CTRL &= ~SYSTICK_ENABLE;
     }
 }

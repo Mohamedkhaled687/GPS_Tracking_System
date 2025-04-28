@@ -1,33 +1,41 @@
-//*****************************************************************************
-// systick.h - Header file for SysTick delay driver.
-//*****************************************************************************
+/******************************************************************************
+ *
+ * Module: Systick Timer
+ *
+ * File Name : SYSTICK.h
+ *
+ * Description: Header File for Tiva C Systick Driver
+ *
+ * Author: Houssam Magdy
+ *
+ *******************************************************************************/
 
 #ifndef SYSTICK_H_
 #define SYSTICK_H_
 
 #include "../../LIB/std_types.h"
 
-// Memory-mapped SysTick register addresses
-#define NVIC_ST_CTRL 0xE000E010    // Control and Status Register
-#define NVIC_ST_RELOAD 0xE000E014  // Reload Value Register
-#define NVIC_ST_CURRENT 0xE000E018 // Current Value Register
+/*******************************************************************************
+ *                              Addresses                                      *
+ *******************************************************************************/
 
-// HWREG macro to access memory-mapped registers
-#define HWREG(x) (*((volatile uint32 *)(x)))
+#define SYSTICK_BASE_ADDRESS 0xE000E000
+#define SYSTICK_CTRL (*((volatile uint32 *)(SYSTICK_BASE_ADDRESS + 0x10)))
+#define SYSTICK_RELOAD (*((volatile uint32 *)(SYSTICK_BASE_ADDRESS + 0x14)))
+#define SYSTICK_CURRENT (*((volatile uint32 *)(SYSTICK_BASE_ADDRESS + 0x18)))
 
-// Access macros for SysTick registers
-#define SYSTICK_CTRL HWREG(NVIC_ST_CTRL)
-#define SYSTICK_RELOAD HWREG(NVIC_ST_RELOAD)
-#define SYSTICK_CURRENT HWREG(NVIC_ST_CURRENT)
+/*******************************************************************************
+ *                              Definitions                                    *
+ *******************************************************************************/
 
-// SysTick control register bit definitions
-#define SYSTICK_ENABLE 0x01      // Bit 0: Counter enable
-#define SYSTICK_INT_DISABLE 0x00 // Bit 1: Interrupt disabled
-#define SYSTICK_CLK_SRC_SYS 0x04 // Bit 2: Use processor clock
+#define SYSTICK_CTRL_ENABLE_MASK 0x00000001    /**< Bit 0 : Counter Enable */
+#define SYSTICK_CTRL_TICKINT_MASK 0x00000002   /**< Bit 1 : Interrupt Enable */
+#define SYSTICK_CTRL_CLKSOURCE_MASK 0x00000004 /**< Bit 2 : Clock Source */
+#define SYSTICK_CTRL_COUNTFLAG_MASK 0x00010000 /**< Bit 16: Count Flag */
 
-//*****************************************************************************
-// Function Prototypes
-//*****************************************************************************
+/*******************************************************************************
+ *                              Functions Prototypes                           *
+ *******************************************************************************/
 
 /**
  * Function desciption:
