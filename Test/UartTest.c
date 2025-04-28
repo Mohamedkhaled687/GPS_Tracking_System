@@ -1,7 +1,7 @@
 /******************************************************************************
  * @file           : UartTest.c
  * @brief          : Source File for testing the GPIO driver
- * @author         : Bassam Hussam
+ * @author         : Mohamed Khaled
  *
  *******************************************************************************/
 

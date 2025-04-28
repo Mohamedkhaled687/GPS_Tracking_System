@@ -7,7 +7,8 @@
 	"settings": {
 		"files.associations": {
 			"*html": "html",
-			"std_types.h": "c"
+			"std_types.h": "c",
+			"systick.h": "c"
 		}
 	}
 }
