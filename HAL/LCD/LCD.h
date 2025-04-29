@@ -14,7 +14,7 @@
 #define LCD_H_
 
 #include "../../LIB/std_types.h"
-#include "gpio.h"
+#include "../../MCAL/GPIO/GPIO.h"
 
 /*******************************************************************************
  *                                Definitions                                  *
@@ -50,11 +50,6 @@
 #define LCD_CURSOR_OFF 0x0C
 #define LCD_CURSOR_ON 0x0E
 #define LCD_SET_CURSOR_LOCATION 0x80
-
-/*External register macros (make sure these are defined properly in your headers) */
-#define RCGCGPIO (*((volatile uint32 *)0x400FE608))
-#define PRGPIO (*((volatile uint32 *)0x400FEA08))
-#define GPIO_LOCK_KEY 0x4C4F434B // Unlock key
 
 /*******************************************************************************
  *                      Functions Prototypes                                   *

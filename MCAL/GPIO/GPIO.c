@@ -372,5 +372,7 @@ uint8 GPIO_readPin(GPIO_PortType port, uint8 pin)
         return GET_BIT(GPIO_PORTE_DATA_R, pin); // read the value of the pin
     case GPIO_PORTF:
         return GET_BIT(GPIO_PORTF_DATA_R, pin); // read the value of the pin
+    default:
+        return LOGIC_LOW; // Return low for invalid port
     }
 }
