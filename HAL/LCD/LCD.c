@@ -1,5 +1,5 @@
-#include "lcd.h"
-#include "GPIO.h"
+#include "LCD.h"
+#include "../../MCAL/GPIO/GPIO.h"
 
 
 void LCD_pinsInit(void)
