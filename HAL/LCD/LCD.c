@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /******************************************************************************
  *
  * Module: LCD
@@ -9,6 +10,10 @@
  * Author: Mosa Abdulaziz
  *
  ******************************************************************************/
+=======
+#include "LCD.h"
+#include "../../MCAL/GPIO/GPIO.h"
+>>>>>>> 6facb06 (check and approve)
 
 #include "LCD.h"
 #include "../../MCAL/SysticTimer/SYSTICK.h"
