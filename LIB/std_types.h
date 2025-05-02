@@ -38,4 +38,4 @@ typedef signed long long sint64;   /* -9223372036854775808 .. 922337203685477580
 typedef float float32;
 typedef double float64;
 
-#endif /* STD_TYPE_H_ */
+#endif /* STD_TYPES_H_ */

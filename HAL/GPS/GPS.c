@@ -87,7 +87,7 @@ float convertToRad(float degrees) {
     lat1 = current
     lat2 = destination
 */
-float Calculate_Distance () {
+float Calculate_Distance (float lat1, float long1, float lat2, float long2) {
 		float diff_lat;
 		float diff_long;
 		float a;
