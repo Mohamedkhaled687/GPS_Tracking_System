@@ -27,6 +27,15 @@
 #define TFT_COLMOD      0x3A //Interface pixel format (e.g. RGB565)
 #define TFT_RAMWR       0x21 //Display Inversion ON (Optional)
 
+/**
+ * PINS CONNECTIONS AND PORT
+ */
+
+#define TFT_PORT         GPIO_PORTA
+#define TFT_DC_Pin       PIN_2
+#define TFT_CS_Pin       PIN_3
+#define TFT_RST_Pin      PIN_4
+
 
 /*          PROTOTYPES           */
 
@@ -73,5 +82,5 @@ void Set_RST_High(void);  // Set RST pin high (Reset off)
 void Set_RST_Low(void);   // Set RST pin low (Reset on)
 
 // SPI control functions for communication with TFT
-void TFT_Write_Command(uint8_t command);  // Send command to TFT
-void TFT_Write_Data(uint8_t data);       // Send data to TFT
+void TFT_writeCommand(uint8_t command);  // Send command to TFT
+void TFT_writeData(uint8_t data);       // Send data to TFT
