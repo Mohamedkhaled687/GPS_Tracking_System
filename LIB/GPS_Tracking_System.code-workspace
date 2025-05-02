@@ -1,14 +1,19 @@
 {
-	"folders": [
+    "folders": [
 		{
 			"path": ".."
 		}
 	],
-	"settings": {
-		"files.associations": {
-			"*html": "html",
-			"std_types.h": "c",
-			"systick.h": "c"
-		}
-	}
+    "settings": {
+        "files.associations": {
+            "*html": "html",
+            "common_macros.h": "c",
+            "gpio.h": "c",
+            "uart.h": "c",
+            "led.h": "c",
+            "switch.h": "c",
+            "tm4c123gh6pm.h": "c",
+            "portf.h": "c"
+        }
+    }
 }
