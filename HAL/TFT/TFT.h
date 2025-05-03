@@ -11,6 +11,7 @@
  ******************************************************************************/
 
 #include <stdint.h>
+#include "../../LIB/std_types.h"
 
 // USED UP PORTS
 //PortB 4 5 6 7
@@ -31,12 +32,14 @@
  * PINS CONNECTIONS AND PORT
  */
 
-#define TFT_PORT         GPIO_PORTA     //TFT PORT
+#define TFT_PORT_PA   GPIO_PORTA     //TFT PORT A
+#define TFT_PORT_PB   GPIO_PORTB     //TFT PORT B
+#define TFT_PORT_PC   GPIO_PORTC     //TFT PORT C
 #define TFT_CLK_Pin      PIN_2          //TFT CLK PIN
-#define TFT_CS_Pin       PIN_3          //Activate Chip PIN
+#define TFT_MOSI_Pin     PIN_3          //TFT RECIEVER PIN
 #define TFT_RST_Pin      PIN_4          //TFT RESET PIN
-#define TFT_MOSI_Pin     PIN_5          //TFT RECIEVER PIN
-#define TFT_DC_Pin       PIN_6          //TFT DATA/COMMAND PIN
+#define TFT_DC_Pin       PIN_7          //TFT DATA/COMMAND PIN PB8
+#define TFT_CS_Pin       PIN_7          //Activate Chip PIN
 
 
 /*          PROTOTYPES           */
@@ -84,5 +87,5 @@ void Set_RST_High(void);  // Set RST pin high (Reset off)
 void Set_RST_Low(void);   // Set RST pin low (Reset on)
 
 // SPI control functions for communication with TFT
-void TFT_writeCommand(uint8_t command);  // Send command to TFT
-void TFT_writeData(uint8_t data);       // Send data to TFT
+void TFT_writeCommand(uint8 *command);  // Send command to TFT
+void TFT_writeData(uint8 *data);       // Send data to TFT
