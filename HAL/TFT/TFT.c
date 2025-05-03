@@ -16,14 +16,22 @@
 
 void TFT_init() {
     GPIO_Init(TFT_PORT);
+    
 
     GPIO_Pin_Init(TFT_PORT, TFT_DC_Pin);
     GPIO_Pin_Init(TFT_PORT, TFT_CS_Pin);
     GPIO_Pin_Init(TFT_PORT, TFT_RST_Pin);
+    GPIO_Pin_Init(TFT_PORT, TFT_CLK_Pin);
+    GPIO_Pin_Init(TFT_PORT, TFT_MOSI_Pin);
+    GPIO_PORTA_PCTL_R |= 0x02;
 
     GPIO_setupPinMode(TFT_PORT, TFT_DC_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT, TFT_CS_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT, TFT_RST_Pin, Pull_down, PIN_OUTPUT);
+    GPIO_setupPinMode(TFT_PORT, TFT_CLK_Pin, Pull_down, PIN_OUTPUT);
+    GPIO_setupPinMode(TFT_PORT, TFT_MOSI_Pin, Pull_down, PIN_OUTPUT);
+
+    SSI_Init(SSI0);
 }
 /**
  * DATA MODE
@@ -70,12 +78,13 @@ void Set_RST_Low() {
 void TFT_writeCommand(uint8_t command) {
     Set_DC_Low();
     Set_CS_Low();
-    SSI_Send(SSI0, command, 2);
+    SSI_Send(SSI0, command, 1);
     Set_CS_High();
 }
 
 void TFT_writeData(uint8_t data) {
     Set_DC_High();
     Set_CS_Low();
-    SSI_Send(SSI0, data, 2);
+    SSI_Send(SSI0, data, 1);
+    Set_CS_High();
 }

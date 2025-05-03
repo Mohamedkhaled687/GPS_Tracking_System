@@ -31,10 +31,12 @@
  * PINS CONNECTIONS AND PORT
  */
 
-#define TFT_PORT         GPIO_PORTA
-#define TFT_DC_Pin       PIN_2
-#define TFT_CS_Pin       PIN_3
-#define TFT_RST_Pin      PIN_4
+#define TFT_PORT         GPIO_PORTA     //TFT PORT
+#define TFT_CLK_Pin      PIN_2          //TFT CLK PIN
+#define TFT_CS_Pin       PIN_3          //Activate Chip PIN
+#define TFT_RST_Pin      PIN_4          //TFT RESET PIN
+#define TFT_MOSI_Pin     PIN_5          //TFT RECIEVER PIN
+#define TFT_DC_Pin       PIN_6          //TFT DATA/COMMAND PIN
 
 
 /*          PROTOTYPES           */
