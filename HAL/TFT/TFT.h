@@ -26,20 +26,19 @@
 #define TFT_RAMWR       0x2C //Write to display RAM
 #define TFT_MADCTL      0x36 //Memory Access Control
 #define TFT_COLMOD      0x3A //Interface pixel format (e.g. RGB565)
-#define TFT_RAMWR       0x21 //Display Inversion ON (Optional)
 
 /**
  * PINS CONNECTIONS AND PORT
  */
 
 #define TFT_PORT_PA   GPIO_PORTA     //TFT PORT A
-#define TFT_PORT_PB   GPIO_PORTB     //TFT PORT B
-#define TFT_PORT_PC   GPIO_PORTC     //TFT PORT C
+#define TFT_PORT_PD   GPIO_PORTD     //TFT PORT A
 #define TFT_CLK_Pin      PIN_2          //TFT CLK PIN
-#define TFT_MOSI_Pin     PIN_3          //TFT RECIEVER PIN
-#define TFT_RST_Pin      PIN_4          //TFT RESET PIN
-#define TFT_DC_Pin       PIN_7          //TFT DATA/COMMAND PIN PB8
+#define TFT_RST_Pin      PIN_3          //TFT RESET PIN
+#define TFT_DC_Pin       PIN_4          //TFT DATA/COMMAND PIN PB8
+#define TFT_MOSI_Pin     PIN_5          //TFT RECIEVER PIN
 #define TFT_CS_Pin       PIN_7          //Activate Chip PIN
+#define TFT_BL_Pin       PIN_6          //Activate BL Pin (has to be set to 1 always)
 
 
 /*          PROTOTYPES           */

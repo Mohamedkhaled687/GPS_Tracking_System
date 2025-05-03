@@ -17,20 +17,21 @@
 
 void TFT_init() {
     GPIO_Init(TFT_PORT_PA);
-    GPIO_Init(TFT_PORT_PB);
-    GPIO_Init(TFT_PORT_PC);
+    GPIO_Init(TFT_PORT_PD);
 
     GPIO_Pin_Init(TFT_PORT_PA, TFT_CLK_Pin);
     GPIO_Pin_Init(TFT_PORT_PA, TFT_MOSI_Pin);
     GPIO_Pin_Init(TFT_PORT_PA, TFT_RST_Pin);
-    GPIO_Pin_Init(TFT_PORT_PC, TFT_DC_Pin);
-    GPIO_Pin_Init(TFT_PORT_PB, TFT_CS_Pin);
+    GPIO_Pin_Init(TFT_PORT_PA, TFT_DC_Pin);
+    GPIO_Pin_Init(TFT_PORT_PD, TFT_CS_Pin);
+    GPIO_Pin_Init(TFT_PORT_PD, TFT_BL_Pin);
     
     GPIO_setupPinMode(TFT_PORT_PA, TFT_CLK_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT_PA, TFT_MOSI_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT_PA, TFT_RST_Pin, Pull_down, PIN_OUTPUT);
-    GPIO_setupPinMode(TFT_PORT_PC, TFT_DC_Pin, Pull_down, PIN_OUTPUT);
-    GPIO_setupPinMode(TFT_PORT_PB, TFT_CS_Pin, Pull_down, PIN_OUTPUT);
+    GPIO_setupPinMode(TFT_PORT_PA, TFT_DC_Pin, Pull_down, PIN_OUTPUT);
+    GPIO_setupPinMode(TFT_PORT_PD, TFT_CS_Pin, Pull_down, PIN_OUTPUT);
+    GPIO_setupPinMode(TFT_PORT_PD, TFT_BL_Pin, Pull_down, PIN_OUTPUT);
 
     GPIO_PORTA_PCTL_R &= ~(0xF << 20); //Clear PortA Pin 5 PCTL
     GPIO_PORTA_PCTL_R |= (0x02 << 20); //Set PortA Pin 5 to SSI0Tx
@@ -38,7 +39,7 @@ void TFT_init() {
     GPIO_PORTA_PCTL_R &= ~(0xF << 8); //Clear PortA Pin 2
     GPIO_PORTA_PCTL_R |= (0x2 << 8); //Set PortA Pin 2 to SSI0CLK
 
-    GPIO_PORTC_PCTL_R &= ~(0xF << 28); //Clear PC7 PCTL to use as a normal input output
+    GPIO_PORTD_PCTL_R &= ~(0xF << 28); //Clear PD7 PCTL to use as a normal input output
 
 
     SSI_Init(SSI_Module_0);
@@ -47,28 +48,28 @@ void TFT_init() {
  * DATA MODE
  */
 void Set_DC_High() {
-    GPIO_writePin(TFT_PORT_PC, TFT_DC_Pin, LOGIC_HIGH);
+    GPIO_writePin(TFT_PORT_PA, TFT_DC_Pin, LOGIC_HIGH);
 }
 
 /**
  * COMMAND MODE
  */
 void Set_DC_Low() {
-    GPIO_writePin(TFT_PORT_PC, TFT_DC_Pin, LOGIC_LOW);
+    GPIO_writePin(TFT_PORT_PA, TFT_DC_Pin, LOGIC_LOW);
 }
 
 /**
  * DEACTIVATE CS
  */
 void Set_CS_High() {
-    GPIO_writePin(TFT_PORT_PB, TFT_CS_Pin, LOGIC_HIGH);
+    GPIO_writePin(TFT_PORT_PD, TFT_CS_Pin, LOGIC_HIGH);
 }
 
 /**
  * ACTIVATE CS
  */
 void Set_CS_Low() {
-    GPIO_writePin(TFT_PORT_PB, TFT_CS_Pin, LOGIC_LOW);
+    GPIO_writePin(TFT_PORT_PD, TFT_CS_Pin, LOGIC_LOW);
 }
 
 /**
