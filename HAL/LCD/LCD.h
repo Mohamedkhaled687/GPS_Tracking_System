@@ -14,7 +14,8 @@
 #define LCD_H_
 
 #include "../../LIB/std_types.h"
-#include "../../MCAL/GPIO/GPIO.h"
+#include "../../MCAL/GPIO/GPIO.c"
+#include "../../MCAL/SysticTimer/SYSTICK.c"
 
 /*******************************************************************************
  *                                Definitions                                  *

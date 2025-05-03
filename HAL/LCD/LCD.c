@@ -2,16 +2,15 @@
  *
  * Module: LCD
  *
- * File Name: lcd.c
+ * File Name: lcd.h
  *
- * Description: Source file for the LCD driver
+ * Description: Header file for the LCD driver
  *
  * Author: Mosa Abdulaziz
  *
  ******************************************************************************/
 
 #include "LCD.h"
-#include "../../MCAL/SysticTimer/SYSTICK.h"
 
 /*
  * Description :
@@ -22,8 +21,8 @@
 
 void LCD_GPIO_init(void)
 {
-    GPIO_init(LCD_CTRL_PORT_ID); // give clock to the GPIO PORTE
-    GPIO_init(LCD_DATA_PORT_ID); // give clock to the GPIO PORTB
+    GPIO_Init(LCD_CTRL_PORT_ID); // give clock to the GPIO PORTE
+    GPIO_Init(LCD_DATA_PORT_ID); // give clock to the GPIO PORTB
 
     GPIO_Pin_Init(GPIO_PORTE, LCD_RS_PIN_ID); // initialize the RS pin
     GPIO_Pin_Init(GPIO_PORTE, LCD_RW_PIN_ID); // initialize the RW pin
@@ -61,54 +60,51 @@ void LCD_init(void)
  * Description :
  * Send the required command to the screen.
  */
-void LCD_sendCommand(uint8 command)
+void LCD_sendCommand(uint8_t data)
 {
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_RS_PIN_ID, LOGIC_LOW); // set the RS pin as low
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_RW_PIN_ID, LOGIC_LOW); // set the RW pin as low
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_HIGH); // set the E pin as high
-    SysTick_DelayMs(1);                                        // delay for 1ms
 
-    LCD_DATA_R = (LCD_DATA_R & 0x0F) | (command & 0xF0); // write the command to the data port
-    SysTick_DelayMs(1);                                  // delay for 1ms
+    GPIO_writePin(GPIO_PORTE, LCD_RS_PIN_ID, 0); // set the RS pin as low
+    GPIO_writePin(GPIO_PORTE, LCD_RW_PIN_ID, 0); // set the RW pin as low
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 1);  // set the E pin as high
+    SysTick_DelayMs(1);                          // delay for 1ms
 
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_LOW); // set the E pin as low
-    SysTick_DelayMs(1);                                       // delay for 1ms
+    GPIO_PORTB_DATA_R = (GPIO_PORTB_DATA_R & 0x0F) | (data & 0xF0); // write the upper nibble of the data to the DB4-DB7 pins
+    SysTick_DelayMs(1);                                             // delay for 1ms
 
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_HIGH); // set the E pin as high
-    SysTick_DelayMs(1);                                        // delay for 1ms
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 0); // set the E pin as low
+    SysTick_DelayMs(1);                         // delay for 1ms
 
-    LCD_DATA_R = (LCD_DATA_R & 0x0F) | ((command & 0xF0) << 4); // write the command to the data port
-    SysTick_DelayMs(1);                                         // delay for 1ms
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 1); // set the E pin as high
+    SysTick_DelayMs(1);                         // delay for 1ms
 
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_LOW); // set the E pin as low
-    SysTick_DelayMs(1);                                       // delay for 1ms
+    GPIO_PORTB_DATA_R = (GPIO_PORTB_DATA_R & 0x0F) | ((data & 0xF) << 4); // write the lower nibble of the data to the DB4-DB7 pins
+    SysTick_DelayMs(1);                                                   // delay for 1ms
+
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 0); // set the E pin as low
+    SysTick_DelayMs(1);                         // delay for 1ms
 }
 
 /*
  * Description :
  * Send the required character to the screen.
  */
-void LCD_displayCharacter(uint8 data)
+void LCD_displayCharacter(uint8_t data)
 {
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_RS_PIN_ID, LOGIC_HIGH); // set the RS pin as high
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_RW_PIN_ID, LOGIC_LOW);  // set the RW pin as low
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_HIGH);  // set the E pin as high
-    SysTick_DelayMs(1);                                         // delay for 1ms
+    GPIO_writePin(GPIO_PORTE, LCD_RS_PIN_ID, 1);
+    GPIO_writePin(GPIO_PORTE, LCD_RW_PIN_ID, 0);
 
-    LCD_DATA_R = (LCD_DATA_R & 0x0F) | (data & 0xF0); // write the data to the data port
-    SysTick_DelayMs(1);                               // delay for 1ms
-
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_LOW); // set the E pin as low
-    SysTick_DelayMs(1);                                       // delay for 1ms
-
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_HIGH); // set the E pin as high
-    SysTick_DelayMs(1);                                        // delay for 1ms
-
-    LCD_DATA_R = (LCD_DATA_R & 0x0F) | ((data & 0xF0) << 4); // write the data to the data port
-    SysTick_DelayMs(1);                                      // delay for 1ms
-
-    GPIO_writePin(LCD_CTRL_PORT_ID, LCD_E_PIN_ID, LOGIC_LOW); // set the E pin as low
-    SysTick_DelayMs(1);                                       // delay for 1ms
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 1);
+    SysTick_DelayMs(1);
+    GPIO_PORTB_DATA_R = (GPIO_PORTB_DATA_R & 0x0F) | (data & 0xF0);
+    SysTick_DelayMs(1);
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 0);
+    SysTick_DelayMs(1);
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 1);
+    SysTick_DelayMs(1);
+    GPIO_PORTB_DATA_R = (GPIO_PORTB_DATA_R & 0x0F) | ((data & 0xF) << 4);
+    SysTick_DelayMs(1);
+    GPIO_writePin(GPIO_PORTE, LCD_E_PIN_ID, 0);
+    SysTick_DelayMs(1);
 }
 
 /*

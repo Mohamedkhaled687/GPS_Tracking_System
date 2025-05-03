@@ -12,9 +12,9 @@
 
 #include "stdio.h"
 #include "stdint.h"
-#include "HAL/LCD/LCD.c"
-#include "MCAL/SysticTimer/SYSTICK.h"
-#include "HAL/PORTF/PORTF.c"
+#include "../HAL/LCD/LCD.c"
+#include "../MCAL/SysticTimer/SYSTICK.h"
+#include "../HAL/PORTF/PORTF.c"
 
 void SystemInit() {};
 

@@ -1,9 +1,9 @@
 {
     "folders": [
-		{
-			"path": ".."
-		}
-	],
+        {
+            "path": ".."
+        }
+    ],
     "settings": {
         "files.associations": {
             "*html": "html",
@@ -13,7 +13,8 @@
             "led.h": "c",
             "switch.h": "c",
             "tm4c123gh6pm.h": "c",
-            "portf.h": "c"
+            "portf.h": "c",
+            "systick.h": "c"
         }
     }
 }
