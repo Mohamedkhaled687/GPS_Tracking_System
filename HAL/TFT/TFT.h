@@ -9,7 +9,8 @@
  * Author: Ahmed Mustafa
  *
  ******************************************************************************/
-
+#ifndef _TFT_H_
+#define _TFT_H_
 #include <stdint.h>
 #include "../../LIB/std_types.h"
 
@@ -39,6 +40,15 @@
 #define TFT_MOSI_Pin     PIN_5          //TFT RECIEVER PIN
 #define TFT_CS_Pin       PIN_7          //Activate Chip PIN
 #define TFT_BL_Pin       PIN_6          //Activate BL Pin (has to be set to 1 always)
+
+/**
+ * MACROS FOR CLEARING AND SETTING PCTL TO SSI
+ */
+#define PORTA_PIN5_CLEARMASK ~(0xF << 20)
+#define PORTA_PIN5_SSI0TX (0x2 << 20)
+#define PORTA_PIN2_CLEARMASK ~(0xF << 8)
+#define PORTA_PIN2_SSI0CLK (0x2 << 8)
+#define PORTD_PIN7_CLEARMASK ~(0xF << 28)
 
 
 /*          PROTOTYPES           */
@@ -88,3 +98,4 @@ void Set_RST_Low(void);   // Set RST pin low (Reset on)
 // SPI control functions for communication with TFT
 void TFT_writeCommand(uint8 *command);  // Send command to TFT
 void TFT_writeData(uint8 *data);       // Send data to TFT
+#endif

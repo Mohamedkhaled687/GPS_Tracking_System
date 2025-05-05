@@ -12,37 +12,26 @@
 
 #include "TFT.h"
 #include "../../MCAL/GPIO/GPIO.h"
-#include "../../MCAL/SPI/SPI.h"
+#include "../../MCAL/SSI/SSI.h"
 #include "../../LIB/std_types.h"
 
 void TFT_init() {
+    SSI_Init(SSI_MODULE_0, SSI0);
+
     GPIO_Init(TFT_PORT_PA);
     GPIO_Init(TFT_PORT_PD);
 
-    GPIO_Pin_Init(TFT_PORT_PA, TFT_CLK_Pin);
-    GPIO_Pin_Init(TFT_PORT_PA, TFT_MOSI_Pin);
     GPIO_Pin_Init(TFT_PORT_PA, TFT_RST_Pin);
     GPIO_Pin_Init(TFT_PORT_PA, TFT_DC_Pin);
     GPIO_Pin_Init(TFT_PORT_PD, TFT_CS_Pin);
     GPIO_Pin_Init(TFT_PORT_PD, TFT_BL_Pin);
     
-    GPIO_setupPinMode(TFT_PORT_PA, TFT_CLK_Pin, Pull_down, PIN_OUTPUT);
-    GPIO_setupPinMode(TFT_PORT_PA, TFT_MOSI_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT_PA, TFT_RST_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT_PA, TFT_DC_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT_PD, TFT_CS_Pin, Pull_down, PIN_OUTPUT);
     GPIO_setupPinMode(TFT_PORT_PD, TFT_BL_Pin, Pull_down, PIN_OUTPUT);
 
-    GPIO_PORTA_PCTL_R &= ~(0xF << 20); //Clear PortA Pin 5 PCTL
-    GPIO_PORTA_PCTL_R |= (0x02 << 20); //Set PortA Pin 5 to SSI0Tx
-
-    GPIO_PORTA_PCTL_R &= ~(0xF << 8); //Clear PortA Pin 2
-    GPIO_PORTA_PCTL_R |= (0x2 << 8); //Set PortA Pin 2 to SSI0CLK
-
-    GPIO_PORTD_PCTL_R &= ~(0xF << 28); //Clear PD7 PCTL to use as a normal input output
-
-
-    SSI_Init(SSI_Module_0);
+    
 }
 /**
  * DATA MODE
