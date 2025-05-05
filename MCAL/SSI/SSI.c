@@ -15,7 +15,7 @@ void SSI_Init(SSI_MODULE_t module, SSI_Regs_t *config) {
     switch(module) {
         case SSI_MODULE_0:
             SYSCTL_RCGCSSI |= 0x01;
-            
+
             GPIO_Init(GPIO_PORTA);
             GPIO_Pin_Init(GPIO_PORTA, PIN_2);
             GPIO_Pin_Init(GPIO_PORTA, PIN_4);
@@ -40,6 +40,7 @@ void SSI_Init(SSI_MODULE_t module, SSI_Regs_t *config) {
             config->SSICR0  &= ~(0xC << 4); //CPOL = 0, SPO = 0
             config->SSICR0  &= ~(0x3 << 4); //FRF = 0 Freescale SPI Frame Format
             config->SSICR0 |= (0x7);        //8-bit data size
+            config->SSIMACTL |= (0x2);      //TxFIFO Enabled
             
             break;
         case(SSI_MODULE_1):
@@ -49,4 +50,10 @@ void SSI_Init(SSI_MODULE_t module, SSI_Regs_t *config) {
         case(SSI_MODULE_3):
         break;
     }
+}
+
+void SSI_Send(SSI_Regs_t *config, const uint8 *data) {
+    while(((config->SSIDR) & SSI0_FIFO_Empty) == SSI0_FIFO_Empty);
+    config->SSIDR = *data;
+    return;
 }

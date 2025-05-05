@@ -78,7 +78,7 @@ void Set_RST_Low() {
 void TFT_writeCommand(uint8 *command) {
     Set_DC_Low();
     Set_CS_Low();
-    SSI_Send(SSI_Module_0, command, 1);
+    SSI_Send(command);
     Set_CS_High();
 }
 
