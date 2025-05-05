@@ -53,7 +53,7 @@ void SSI_Init(SSI_MODULE_t module, SSI_Regs_t *config) {
 }
 
 void SSI_Send(SSI_Regs_t *config, const uint8 *data) {
-    while(((config->SSIDR) & SSI0_FIFO_Empty) == SSI0_FIFO_Empty);
+    while(((config->SSIDR) & SSI0_TxFIFO_Full) == SSI0_TxFIFO_Full);
     config->SSIDR = *data;
     return;
 }
