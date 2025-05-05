@@ -62,7 +62,7 @@
  #define SSI2 ((SSI_Regs_t *) SSI2_BASE)
  #define SSI3 ((SSI_Regs_t *) SSI3_BASE)
  
- #define SSI0_TxFIFO_Full ~(config->SSISR & (1U << 1))
+ #define SSI0_SR_TNF (1U << 1)
  
  /* PROTOTYPES */
  void SSI_Init(SSI_MODULE_t module, SSI_Regs_t *config);
