@@ -49,10 +49,7 @@ int main(void)
         {
             delay_ms(30);
             // Send latitude
-            UART_SendString(UART0, "30.063139");
-            delay_ms(10);
-            // Send longitude
-            UART_SendString(UART0, "31.278892");
+            UART_SendString(UART0, "30.063139,31.278892\n");
             PORTF_SetLedValue(RED, LED_ON);
             buttonPressedFlag = 1;
         }
