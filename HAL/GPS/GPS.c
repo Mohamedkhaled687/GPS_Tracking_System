@@ -45,6 +45,7 @@ void Get_GPRMC()
 
 void parse_GPRMC()
 {
+
     char noOfTokenStrings = 0;
 
     token = strtok(GPS, ",");
@@ -57,7 +58,7 @@ void parse_GPRMC()
 
     } while (token != NULL);
 
-    if (noOfTokenStrings == 11)
+    if (noOfTokenStrings > 7)
     {
         if (strcmp(GPS_formated[1], "A") == 0)
         {
@@ -81,16 +82,20 @@ void parse_GPRMC()
     }
 }
 
+
 float convertToRad(float degrees)
 {
     return degrees * (PI / 180);
 }
+
 /**
  * @param lat2 Desination Lat
  * @param long2 Destination Long
  */
+
 float Calculate_Distance(float lat2, float long2)
 {
+
     float diff_lat;
     float diff_long;
     float a;
