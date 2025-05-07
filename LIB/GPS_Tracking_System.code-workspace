@@ -14,7 +14,8 @@
             "switch.h": "c",
             "tm4c123gh6pm.h": "c",
             "portf.h": "c",
-            "systick.h": "c"
+            "systick.h": "c",
+            "gps.h": "c"
         }
     }
 }

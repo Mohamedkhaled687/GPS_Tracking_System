@@ -1,66 +1,62 @@
 /******************************************************************************
- *
- * Module: LED
- *
- * File Name : LED.h
- *
- * Description: Header File for Tiva C LED Driver
- *
- * Author: Mohamed Khaled
+ * @file           : UartTest.c
+ * @brief          : Source File for testing the GPIO driver
+ * @author         : Mohamed Khaled
  *
  *******************************************************************************/
 
 #include "stdio.h"
-#include "..\MCAL\UART\UART.c"
-#include "..\HAL\PORTF\PORTF.c"
-#include "..\HAL\GPS\GPS.c"
-// 30.064079790586238, 31.279363300577383 | 30.064139590172832, 31.279339980915793
+#include "MCAL\UART\UART.c"
+#include "HAL\PORTF\PORTF.c"
+#include "HAL\LCD\LCD.c"
+#include "HAL\GPS\GPS.c"
+
 void SystemInit() {};
-float lat2 = 30.063768832165547, long2 = 31.279524810824068; // Choose What you want
-// char GPS_output[80] = "$GPRMC,123519.00,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A";
-/*
-void delay_ms(uint32 ms)
-{
-    volatile uint32 count;
-    while (ms--)
-    {
-        for (count = 0; count < 4000; count++)
-        {
-        } // adjust for your clock speed
-    }
-}*/
 
 int main(void)
 {
-  float distance;
-  char i;
-  UART_ConfigType UART_Configurations; // UART configuration structure
+  UART_ConfigType UART0_Configurations; // UART0 configuration structure
+  UART_ConfigType UART2_Configurations; // UART2 configuration structure
 
-  // Configure UART settings
-  UART_Configurations.uart_number = UART0; // Set UART number
-  UART_Configurations.DataBits = 8;        // 8 data bits
-  UART_Configurations.parity = 0;          // No parity
-  UART_Configurations.stop_bits = 1;       // 1 stop bit
-  UART_Configurations.IBRD = 104;          // Integer Baud Rate (for 9600 baud with 16 MHz clock)
-  UART_Configurations.FBRD = 11;           // Fractional Baud Rate
-  UART_Config(&UART_Configurations);       // Initialize UART with settings
+  // Configure UART0 settings
+  UART0_Configurations.uart_number = UART0; // Set UART number
+  UART0_Configurations.DataBits = 8;        // 8 data bits
+  UART0_Configurations.parity = 0;          // No parity
+  UART0_Configurations.stop_bits = 1;       // 1 stop bit
+  UART0_Configurations.IBRD = 104;          // Integer Baud Rate (for 9600 baud with 16 MHz clock)
+  UART0_Configurations.FBRD = 11;           // Fractional Baud Rate
 
+  // Configure UART2 settings (same configuration as UART0)
+  UART2_Configurations.uart_number = UART2;
+  UART2_Configurations.DataBits = 8;
+  UART2_Configurations.parity = 0;
+  UART2_Configurations.stop_bits = 1;
+  UART2_Configurations.IBRD = 104;
+  UART2_Configurations.FBRD = 11;
+
+  // Initialize both UARTs
+  UART_Config(&UART0_Configurations);
+  UART_Config(&UART2_Configurations);
   PORTF_SW1_SW2_Init();
   PORTF_LEDS_Init();
+  LCD_init(); // Initialize LCD
+
+  // Display static labels
+  LCD_displayStringRowColumn(0, 0, "lat = ");
+  LCD_displayStringRowColumn(1, 0, "long = ");
 
   while (1)
   {
+    UART_SendByte(UART0, UART_recieveByte(UART2));
     Get_GPRMC();
     parse_GPRMC();
-    distance = Calculate_Distance(lat2, long2);
-    if (distance > 37)
-    {
-      PORTF_led_Toggle(RED);
-    }
-    else
-    {
-      PORTF_led_Toggle(GREEN);
-    }
+
+    // Update only the coordinate values
+    LCD_moveCursor(0, 6); // Move cursor after "lat = "
+    LCD_intgerToString(convertToDegree(lat1));
+
+    LCD_moveCursor(1, 6); // Move cursor after "long = "
+    LCD_intgerToString(convertToDegree(long1));
   }
 
   return 0; // Return success

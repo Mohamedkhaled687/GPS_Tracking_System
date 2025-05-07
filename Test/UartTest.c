@@ -50,7 +50,8 @@ int main(void)
             delay_ms(30);
             UART_SendByte(UART0, '5');      // Send one '5' over UART
             PORTF_SetLedValue(RED, LED_ON); // Optionally turn on the LED
-            buttonPressedFlag = 1;          // Set the flag to indicate button is pressed
+            
+            buttonPressedFlag = 1; // Set the flag to indicate button is pressed
         }
         else if (switch_state == SW_NOT_PRESSED)
         {
