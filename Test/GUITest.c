@@ -27,6 +27,7 @@ int main(void)
     UART_ConfigType UART_Configurations; // UART configuration structure
     uint8 switch_state = 1;              // Assume 1 means not pressed, 0 means pressed
     uint8 buttonPressedFlag = 0;         // Edge-detection flag
+    char gpsString[32];                  // Buffer to hold the formatted string
 
     // Configure UART settings
     UART_Configurations.uart_number = UART0; // Set UART number

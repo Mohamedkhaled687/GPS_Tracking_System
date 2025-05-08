@@ -14,6 +14,31 @@
 
 void SystemInit() {};
 
+typedef struct
+{
+    char name[50];
+    float latitude;
+    float longitude;
+} building;
+
+building buildings[] = {
+    {"Credit", 30.063440, 31.278323},
+    {"BasketBall", 30.063635, 31.278717},
+    {"Soccer small", 30.063375, 31.278837},
+    {"Hall A", 30.064168, 31.280241},
+    {"Hall C", 30.063649, 31.280469},
+    {"Architecture", 30.064109, 31.280698},
+    {"Mosque", 30.064658, 31.280397},
+    {"Luban Workshop", 30.063333, 31.279728},
+    {"ASU Racing Team", 30.063115, 31.279050},
+    {"Main Building Student Affairs", 30.065045, 31.278707},
+    {"Main Building 2", 30.064801, 31.277951},
+    {"Main Building 3", 30.065204, 31.279293},
+    {"Fountain", 30.065553, 31.278418},
+    {"Mechanical Workshops 1", 30.063900, 31.278303},
+    {"Mechanical Workshops 2", 30.063898, 31.278311},
+    {"Mechanical Workshops 3", 30.064436, 31.279791}};
+
 int main(void)
 {
     uint8 switch_state = 1;      // Assume 1 means not pressed, 0 means pressed
@@ -64,6 +89,28 @@ int main(void)
         LCD_moveCursor(1, 6); // Move cursor after "long = "
         LCD_intgerToString(convertToDegree(long1));
 
+        // Calculate distances to all buildings
+        float min_distance = 999999.0;  // Initialize with a large number
+        char closest_building[50] = ""; // Store name of closest building
+        float current_distance;
+
+        // Calculate distance to each building
+        for (int i = 0; i < sizeof(buildings) / sizeof(buildings[0]); i++)
+        {
+            current_distance = Calculate_Distance(buildings[i].latitude, buildings[i].longitude);
+            if (current_distance < min_distance)
+            {
+                min_distance = current_distance;
+                strcpy(closest_building, buildings[i].name);
+            }
+        }
+
+        // Display closest building on two lines
+        LCD_clearScreen();
+        LCD_displayStringRowColumn(0, 0, "Closest Building:");
+        LCD_displayStringRowColumn(1, 0, closest_building);
+
+        // GUI
         if (switch_state == SW_PRESSED) // If switch is pressed
         {
             SysTick_DelayMs(30);        // Debounce delay
