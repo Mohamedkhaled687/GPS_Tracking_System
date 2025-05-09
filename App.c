@@ -11,6 +11,7 @@
 #include "MCAL\SysticTimer\SYSTICK.h"
 #include "HAL\LCD\LCD.c"
 #include "HAL\GPS\GPS.c"
+#include "HAL\BUZZER\BUZZER.c"
 
 void SystemInit() {};
 
@@ -22,28 +23,35 @@ typedef struct
 } building;
 
 building buildings[] = {
-    {"Credit", 30.063440, 31.278323},
-    {"BasketBall", 30.063635, 31.278717},
-    {"Soccer small", 30.063375, 31.278837},
-    {"Hall A", 30.064168, 31.280241},
-    {"Hall C", 30.063649, 31.280469},
-    {"Architecture", 30.064109, 31.280698},
-    {"Mosque", 30.064658, 31.280397},
-    {"Luban Workshop", 30.063333, 31.279728},
-    {"ASU Racing Team", 30.063115, 31.279050},
-    {"Main Building Student Affairs", 30.065045, 31.278707},
-    {"Main Building 2", 30.064801, 31.277951},
-    {"Main Building 3", 30.065204, 31.279293},
-    {"Fountain", 30.065553, 31.278418},
-    {"Mechanical Workshops 1", 30.063900, 31.278303},
-    {"Mechanical Workshops 2", 30.063898, 31.278311},
-    {"Mechanical Workshops 3", 30.064436, 31.279791}};
+    {"Credit", 30.063461114241612, 31.278327899164317},
+    {"BasketBall", 30.063638749294025, 31.278715838272472},
+    {"Soccer small", 30.063378152706836, 31.278837633108754},
+    {"11 Yard Soccer", 30.06377148736959, 31.279527803850137},
+    {"Hall A", 30.064167728242268, 31.28024825706133},
+    {"Hall C", 30.06365434529334, 31.280481697164205},
+    {"Architecture", 30.0640269, 31.280439},
+    {"Mosque", 30.064662991956737, 31.280400696189105},
+    {"Luban Workshop", 30.06337551683726, 31.279622342709416},
+    {"ASU Racing Team", 30.063157864471684, 31.27894232153854},
+    {"Main Building SA", 30.0650748204795, 31.278655203367112},
+    {"Main Building 2", 30.064769331464166, 31.277942478027704},
+    {"Main Building 3", 30.06522252511632, 31.279310881797013},
+    {"Fountain", 30.065573993459477, 31.278439547682293},
+    {"Workshop 1", 30.063967515677223, 31.27839374964577},
+    {"Workshop 2", 30.064190046314668, 31.279082792656933},
+    {"Workshop 3", 30.064500417158847, 31.27993986743512}};
 
 int main(void)
 {
     uint8 switch_state = 1;      // Assume 1 means not pressed, 0 means pressed
     uint8 buttonPressedFlag = 0; // Edge-detection flag
-    char gpsString[32];          // Buffer to hold the formatted string
+    uint8 i = 0;
+    float min_distance = 999999.0;       // Initialize with a large number
+    char closest_building[50] = "";      // Store name of closest building
+    char prev_closest_building[50] = ""; // Store previous closest building
+    float current_distance;
+
+    char gpsString[32]; // Buffer to hold the formatted string
 
     UART_ConfigType UART0_Configurations; // UART0 configuration structure
     UART_ConfigType UART2_Configurations; // UART2 configuration structure
@@ -71,10 +79,10 @@ int main(void)
     PORTF_LEDS_Init();
     LCD_init(); // Initialize LCD
     SysTick_Init();
+    buzzer_init(); // Initialize buzzer
 
-    // Display static labels
-    LCD_displayStringRowColumn(0, 0, "lat = ");
-    LCD_displayStringRowColumn(1, 0, "long = ");
+    LCD_clearScreen();
+    LCD_displayStringRowColumn(0, 0, "Closest Building:");
 
     while (1)
     {
@@ -82,20 +90,9 @@ int main(void)
         parse_GPRMC();
         switch_state = PORTF_GetSwitchValue(SW1); // Read the state of switch 1
 
-        // Update only the coordinate values
-        LCD_moveCursor(0, 6); // Move cursor after "lat = "
-        LCD_intgerToString(convertToDegree(lat1));
-
-        LCD_moveCursor(1, 6); // Move cursor after "long = "
-        LCD_intgerToString(convertToDegree(long1));
-
         // Calculate distances to all buildings
-        float min_distance = 999999.0;  // Initialize with a large number
-        char closest_building[50] = ""; // Store name of closest building
-        float current_distance;
-
-        // Calculate distance to each building
-        for (int i = 0; i < sizeof(buildings) / sizeof(buildings[0]); i++)
+        min_distance = 999999.0; // Reset minimum distance
+        for (i = 0; i < sizeof(buildings) / sizeof(buildings[0]); i++)
         {
             current_distance = Calculate_Distance(buildings[i].latitude, buildings[i].longitude);
             if (current_distance < min_distance)
@@ -105,28 +102,37 @@ int main(void)
             }
         }
 
-        // Display closest building on two lines
-        LCD_clearScreen();
-        LCD_displayStringRowColumn(0, 0, "Closest Building:");
-        LCD_displayStringRowColumn(1, 0, closest_building);
+        // Check if closest building has changed
+        if (strcmp(closest_building, prev_closest_building) != 0)
+        {
+            // Clear screen and update display
+            LCD_clearScreen();
+            LCD_displayStringRowColumn(0, 0, "Closest Building:");
+            LCD_displayStringRowColumn(1, 0, closest_building);
 
-        // GUI
-        if (switch_state == SW_PRESSED) // If switch is pressed
-        {
-            SysTick_DelayMs(30);        // Debounce delay
-            if (buttonPressedFlag == 0) // Only send once per press
-            {
-                // Format coordinates with 6 decimal places and send
-                sprintf(gpsString, "%.6f,%.6f\n", convertToDegree(lat1), convertToDegree(long1));
-                UART_SendString(UART0, gpsString);
-                buttonPressedFlag = 1; // Set flag to prevent multiple sends
-            }
-            PORTF_SetLedValue(RED, LED_ON); // Turn on red LED while pressed
+            // Activate buzzer
+            buzzer_on();
+            SysTick_DelayMs(2000);
+            buzzer_off();
+
+            // Update previous closest building
+            strcpy(prev_closest_building, closest_building);
         }
-        else // Switch is not pressed
+
+        if ((switch_state == SW_PRESSED) && (buttonPressedFlag == 0))
         {
-            PORTF_SetLedValue(RED, LED_OFF); // Turn off red LED
-            buttonPressedFlag = 0;           // Reset flag for next press
+            // Format coordinates with 6 decimal places and send
+            sprintf(gpsString, "%.6f,%.6f\n", convertToDegree(lat1), convertToDegree(long1));
+            UART_SendString(UART0, gpsString);
+
+            PORTF_SetLedValue(RED, LED_ON); // Optionally turn on the LED
+
+            buttonPressedFlag = 1; // Set the flag to indicate button is pressed
+        }
+        else if (switch_state == SW_NOT_PRESSED)
+        {
+            PORTF_SetLedValue(RED, LED_OFF); // Turn off the LED when button is released
+            buttonPressedFlag = 0;           // Reset the flag when button is released
         }
     }
 

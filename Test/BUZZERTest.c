@@ -11,6 +11,7 @@
 #include "MCAL\SysticTimer\SYSTICK.h"
 #include "HAL\LCD\LCD.c"
 #include "HAL\GPS\GPS.c"
+#include "HAL\BUZZER\BUZZER.h"
 
 void SystemInit() {};
 
@@ -46,6 +47,7 @@ int main(void)
     PORTF_LEDS_Init();
     LCD_init(); // Initialize LCD
     SysTick_Init();
+    buzzer_init();
 
     // Display static labels
     LCD_displayStringRowColumn(0, 0, "lat = ");
@@ -53,31 +55,13 @@ int main(void)
 
     while (1)
     {
-        Get_GPRMC();
-        parse_GPRMC();
-        switch_state = PORTF_GetSwitchValue(SW1); // Read the state of switch 1
-
-        // Update only the coordinate values
-        LCD_moveCursor(0, 6); // Move cursor after "lat = "
-        LCD_intgerToString(convertToDegree(lat1));
-
-        LCD_moveCursor(1, 6); // Move cursor after "long = "
-        LCD_intgerToString(convertToDegree(long1));
-
-        if ((switch_state == SW_PRESSED) && (buttonPressedFlag == 0))
-        {
-            // Format coordinates with 6 decimal places and send
-            sprintf(gpsString, "%.6f,%.6f\n", convertToDegree(lat1), convertToDegree(long1));
-            UART_SendString(UART0, gpsString);
-
-            PORTF_SetLedValue(RED, LED_ON); // Optionally turn on the LED
-
-            buttonPressedFlag = 1; // Set the flag to indicate button is pressed
-        }
-        else if (switch_state == SW_NOT_PRESSED)
-        {
-            PORTF_SetLedValue(RED, LED_OFF); // Turn off the LED when button is released
-            buttonPressedFlag = 0;           // Reset the flag when button is released
-        }
+        PORTF_SetLedValue(RED, LED_ON);
+        SysTick_DelayMs(1000);
+        PORTF_SetLedValue(RED, LED_OFF);
+        SysTick_DelayMs(1000);
+        buzzer_on();
+        SysTick_DelayMs(1000);
+        buzzer_off();
+        SysTick_DelayMs(1000);
     }
 }

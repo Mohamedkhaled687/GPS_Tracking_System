@@ -118,8 +118,8 @@ float Calculate_Distance(float lat2, float long2)
     // Convert to Rad
     lat1_temp = convertToRad(convertToDegree(lat1));
     long1_temp = convertToRad(convertToDegree(long1));
-    lat2_temp = convertToRad(convertToDegree(lat2));
-    long2_temp = convertToRad(convertToDegree(long2));
+    lat2_temp = convertToRad((lat2));
+    long2_temp = convertToRad((long2));
     // Differences
     diff_lat = lat2_temp - lat1_temp;
     diff_long = long2_temp - long1_temp;
