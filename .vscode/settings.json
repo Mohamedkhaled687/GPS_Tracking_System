@@ -2,5 +2,6 @@
     "files.associations": {
         "*html": "html",
         "std_types.h": "c"
-    }
+    },
+    "cmake.sourceDirectory": "C:/Users/Mohamed/OneDrive/Desktop/GPS_Tracking_System/GUI"
 }
