@@ -60,7 +60,7 @@ void LCD_init(void)
  * Description :
  * Send the required command to the screen.
  */
-void LCD_sendCommand(uint8_t data)
+void LCD_sendCommand(uint8 data)
 {
 
     GPIO_writePin(GPIO_PORTE, LCD_RS_PIN_ID, 0); // set the RS pin as low
@@ -88,7 +88,7 @@ void LCD_sendCommand(uint8_t data)
  * Description :
  * Send the required character to the screen.
  */
-void LCD_displayCharacter(uint8_t data)
+void LCD_displayCharacter(uint8 data)
 {
     GPIO_writePin(GPIO_PORTE, LCD_RS_PIN_ID, 1);
     GPIO_writePin(GPIO_PORTE, LCD_RW_PIN_ID, 0);

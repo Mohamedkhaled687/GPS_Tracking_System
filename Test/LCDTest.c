@@ -1,12 +1,12 @@
 /******************************************************************************
  *
- * Module: Main
+ * Module: LCDTest
  *
- * File Name: main.c
+ * File Name: LCDTest.c
  *
  * Description: Test code for LCD driver
  *
- * Author: Mohamed Khaled
+ * Author: Mosa Abalziz
  *
  *******************************************************************************/
 

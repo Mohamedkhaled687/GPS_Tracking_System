@@ -1,27 +1,13 @@
 /******************************************************************************
- * @file           : UartTest.c
- * @brief          : Source File for testing the GPIO driver
+ * @file           : App.c
+ * @brief          : Source File for the Application
  * @author         : Mohamed Khaled
  *
  *******************************************************************************/
 
-#include "stdio.h"
-#include "MCAL\UART\UART.c"
-#include "HAL\PORTF\PORTF.c"
-#include "MCAL\SysticTimer\SYSTICK.h"
-#include "HAL\LCD\LCD.c"
-#include "HAL\GPS\GPS.c"
-#include "HAL\BUZZER\BUZZER.c"
+#include "App.h"
 
-void SystemInit() {};
-
-typedef struct
-{
-    char name[50];
-    float latitude;
-    float longitude;
-} building;
-
+/* Building Locations Array Definition */
 building buildings[] = {
     {"Credit", 30.063461114241612, 31.278327899164317},
     {"BasketBall", 30.063638749294025, 31.278715838272472},
@@ -41,22 +27,30 @@ building buildings[] = {
     {"Workshop 2", 30.064190046314668, 31.279082792656933},
     {"Workshop 3", 30.064500417158847, 31.27993986743512}};
 
+void SystemInit() {};
+
 int main(void)
 {
-    uint8 switch_state = 1;      // Assume 1 means not pressed, 0 means pressed
-    uint8 buttonPressedFlag = 0; // Edge-detection flag
-    uint8 i = 0;
+    /* Variable Definitions */
+    uint8 switch_state = 1;              // Assume 1 means not pressed, 0 means pressed
+    uint8 switch2_state = 1;             // State of SW2
+    uint8 buttonPressedFlag = 0;         // Edge-detection flag for SW1
+    uint8 button2PressedFlag = 0;        // Edge-detection flag for SW2
+    uint8 i = 0;                         // Loop counter
     float min_distance = 999999.0;       // Initialize with a large number
     char closest_building[50] = "";      // Store name of closest building
     char prev_closest_building[50] = ""; // Store previous closest building
-    float current_distance;
+    float current_distance;              // Current distance to building
+    float total_distance = 0.0;          // Total distance traveled
+    float prev_lat = 0.0;                // Previous latitude
+    float prev_long = 0.0;               // Previous longitude
+    uint8 first_point = 1;               // Flag for first GPS point
+    char gpsString[32];                  // Buffer to hold the formatted string
 
-    char gpsString[32]; // Buffer to hold the formatted string
-
+    /* UART Configuration Structures */
     UART_ConfigType UART0_Configurations; // UART0 configuration structure
-    UART_ConfigType UART2_Configurations; // UART2 configuration structure
 
-    // Configure UART0 settings
+    /* Configure UART0 settings */
     UART0_Configurations.uart_number = UART0; // Set UART number
     UART0_Configurations.DataBits = 8;        // 8 data bits
     UART0_Configurations.parity = 0;          // No parity
@@ -64,22 +58,14 @@ int main(void)
     UART0_Configurations.IBRD = 104;          // Integer Baud Rate (for 9600 baud with 16 MHz clock)
     UART0_Configurations.FBRD = 11;           // Fractional Baud Rate
 
-    // Configure UART2 settings (same configuration as UART0)
-    UART2_Configurations.uart_number = UART2;
-    UART2_Configurations.DataBits = 8;
-    UART2_Configurations.parity = 0;
-    UART2_Configurations.stop_bits = 1;
-    UART2_Configurations.IBRD = 104;
-    UART2_Configurations.FBRD = 11;
-
-    // Initialize both UARTs
+    /* Initialize Hardware */
     UART_Config(&UART0_Configurations);
-    UART_Config(&UART2_Configurations);
+
     PORTF_SW1_SW2_Init();
     PORTF_LEDS_Init();
-    LCD_init(); // Initialize LCD
+    LCD_init();
     SysTick_Init();
-    buzzer_init(); // Initialize buzzer
+    buzzer_init();
 
     LCD_clearScreen();
     LCD_displayStringRowColumn(0, 0, "Closest Building:");
@@ -88,7 +74,18 @@ int main(void)
     {
         Get_GPRMC();
         parse_GPRMC();
-        switch_state = PORTF_GetSwitchValue(SW1); // Read the state of switch 1
+        switch_state = PORTF_GetSwitchValue(SW1);  // Read the state of switch 1
+        switch2_state = PORTF_GetSwitchValue(SW2); // Read the state of switch 2
+
+        // Calculate distance between consecutive points
+        if (!first_point)
+        {
+            float point_distance = Calculate_Distance(convertToDegree(prev_lat), convertToDegree(prev_long));
+            total_distance += point_distance;
+        }
+        prev_lat = lat1;
+        prev_long = long1;
+        first_point = 0;
 
         // Calculate distances to all buildings
         min_distance = 999999.0; // Reset minimum distance
@@ -119,22 +116,40 @@ int main(void)
             strcpy(prev_closest_building, closest_building);
         }
 
+        /* Handle SW1 press */
         if ((switch_state == SW_PRESSED) && (buttonPressedFlag == 0))
         {
             // Format coordinates with 6 decimal places and send
             sprintf(gpsString, "%.6f,%.6f\n", convertToDegree(lat1), convertToDegree(long1));
             UART_SendString(UART0, gpsString);
 
-            PORTF_SetLedValue(RED, LED_ON); // Optionally turn on the LED
-
-            buttonPressedFlag = 1; // Set the flag to indicate button is pressed
+            PORTF_SetLedValue(RED, LED_ON);
+            buttonPressedFlag = 1;
         }
         else if (switch_state == SW_NOT_PRESSED)
         {
-            PORTF_SetLedValue(RED, LED_OFF); // Turn off the LED when button is released
-            buttonPressedFlag = 0;           // Reset the flag when button is released
+            PORTF_SetLedValue(RED, LED_OFF);
+            buttonPressedFlag = 0;
+        }
+
+        /* Handle SW2 press */
+        if ((switch2_state == SW_PRESSED) && (button2PressedFlag == 0))
+        {
+            LCD_clearScreen();
+            LCD_displayStringRowColumn(0, 0, "Total Distance:");
+            LCD_moveCursor(1, 0);
+            LCD_intgerToString(total_distance);
+            SysTick_DelayMs(2000); // Display for 2 seconds
+            LCD_clearScreen();
+            LCD_displayStringRowColumn(0, 0, "Closest Building:");
+            LCD_displayStringRowColumn(1, 0, closest_building);
+            button2PressedFlag = 1;
+        }
+        else if (switch2_state == SW_NOT_PRESSED)
+        {
+            button2PressedFlag = 0;
         }
     }
 
-    return 0; // Return success
+    return 0;
 }

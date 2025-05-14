@@ -1,7 +1,7 @@
 /******************************************************************************
- * @file           : UartTest.c
- * @brief          : Source File for testing the GPIO driver
- * @author         : Mohamed Khaled
+ * @file           : GpsTest.c
+ * @brief          : Source File for testing the GPs driver
+ * @author         : Ahmed Mostafa
  *
  *******************************************************************************/
 
@@ -15,16 +15,7 @@ void SystemInit() {};
 
 int main(void)
 {
-  UART_ConfigType UART0_Configurations; // UART0 configuration structure
   UART_ConfigType UART2_Configurations; // UART2 configuration structure
-
-  // Configure UART0 settings
-  UART0_Configurations.uart_number = UART0; // Set UART number
-  UART0_Configurations.DataBits = 8;        // 8 data bits
-  UART0_Configurations.parity = 0;          // No parity
-  UART0_Configurations.stop_bits = 1;       // 1 stop bit
-  UART0_Configurations.IBRD = 104;          // Integer Baud Rate (for 9600 baud with 16 MHz clock)
-  UART0_Configurations.FBRD = 11;           // Fractional Baud Rate
 
   // Configure UART2 settings (same configuration as UART0)
   UART2_Configurations.uart_number = UART2;
@@ -35,7 +26,6 @@ int main(void)
   UART2_Configurations.FBRD = 11;
 
   // Initialize both UARTs
-  UART_Config(&UART0_Configurations);
   UART_Config(&UART2_Configurations);
   PORTF_SW1_SW2_Init();
   PORTF_LEDS_Init();
@@ -47,7 +37,6 @@ int main(void)
 
   while (1)
   {
-    UART_SendByte(UART0, UART_recieveByte(UART2));
     Get_GPRMC();
     parse_GPRMC();
 

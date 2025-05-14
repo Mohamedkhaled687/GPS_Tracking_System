@@ -16,17 +16,49 @@
 #include "../../MCAL/UART/UART.h"
 #include <string.h>
 
+/* Global Variables */
+float lat1 = 0.0;
+float long1 = 0.0;
+
 static char GPS[80];
 static const char GPS_logName[] = "$GPRMC,";
 static char GPS_output[80];
 static char GPS_formated[12][20];
 static char *token;
-// 30.063768832165547, 31.279524810824068 (MIDDLE OF 11YARD PLAYGROUND IN COLLEGE)
-static float lat1, long1;
 static float lat1_temp, long1_temp, lat2_temp, long2_temp;
+
+/*
+ * Function: GPS_UART_Init
+ * Description: Initialize UART for GPS
+ * Parameters: None
+ * Return: None
+ */
+void GPS_UART_Init()
+{
+    UART_ConfigType UART2_Configurations; // UART2 configuration structure
+
+    UART2_Configurations.uart_number = UART2;
+    UART2_Configurations.DataBits = 8;
+    UART2_Configurations.parity = 0;
+    UART2_Configurations.stop_bits = 1;
+    UART2_Configurations.IBRD = 104;
+    UART2_Configurations.FBRD = 11;
+
+    UART_Config(&UART2_Configurations);
+}
+
+/*
+ * Function: Get_GPRMC
+ * Description: Get GPRMC data
+ * Parameters: None
+ * Return: None
+ */
 
 void Get_GPRMC(void)
 {
+
+    // Intialize the UART2
+    GPS_UART_Init();
     // Recieve Correct Log
     char i;
     char flag = 1;
@@ -53,6 +85,13 @@ void Get_GPRMC(void)
         GPS[fillCounter++] = recievedByte;
     } while (recievedByte != '*');
 }
+
+/*
+ * Function: parse_GPRMC
+ * Description: Parse GPRMC data
+ * Parameters: None
+ * Return: None
+ */
 
 void parse_GPRMC(void)
 {
@@ -92,10 +131,24 @@ void parse_GPRMC(void)
     }
 }
 
+/*
+ * Function: convertToRad
+ * Description: Convert degrees to radians
+ * Parameters: float degrees
+ * Return: float
+ */
+
 float convertToRad(float degrees)
 {
     return degrees * (PI / 180);
 }
+
+/*
+ * Function: convertToDegree
+ * Description: Convert radians to degrees
+ * Parameters: float angle
+ * Return: float
+ */
 
 float convertToDegree(float angle)
 {
@@ -104,9 +157,11 @@ float convertToDegree(float angle)
     return (degree + (minutes / 60));
 }
 
-/**
- * @param lat2 Desination Lat
- * @param long2 Destination Long
+/*
+ * Function: Calculate_Distance
+ * Description: Calculate distance between two points
+ * Parameters: float lat2, float long2
+ * Return: float
  */
 
 float Calculate_Distance(float lat2, float long2)
