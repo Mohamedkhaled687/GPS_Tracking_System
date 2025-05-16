@@ -6,7 +6,7 @@
  *
  * Description: Header file for the Application
  *
- * Author: Mohamed Khaled
+ * Author: Hazem Youssef
  *
  *******************************************************************************/
 
